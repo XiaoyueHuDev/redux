@@ -1,4 +1,4 @@
-import { INCREMENT, ADD_CHILD, REMOVE_CHILD, CREATE_NODE, DELETE_NODE, ADD_FILE } from '../actions'
+import { ADD_CHILD, REMOVE_CHILD, CREATE_NODE, DELETE_NODE, ADD_FILE } from '../actions'
 import generateTree from '../generateTree';
 
 const childIds = (state, action) => {
@@ -13,20 +13,13 @@ const childIds = (state, action) => {
 }
 
 const node = (state, action) => {
-  console.log('----- node state --------');
-  console.log(action);
   switch (action.type) {
     case CREATE_NODE:
       return {
         id: action.nodeId,
-        counter: 0,
+        folderName: action.folderName,
         filePaths:[],
         childIds: []
-      }
-    case INCREMENT:
-      return {
-        ...state,
-        counter: state.counter + 1
       }
     case ADD_FILE:
       return {
@@ -37,7 +30,6 @@ const node = (state, action) => {
       return {
         ...state,
         childIds: childIds(state.childIds, action),
-        folderName: action.folderName
       }
     case REMOVE_CHILD:
       return {
@@ -82,6 +74,4 @@ export default (state = initialState, action) => {
     ...state,
     [nodeId]: node(state[nodeId], action)
   }
-
-  // return Object.assign(state,{ [nodeId]: node(state[nodeId], action)} )
 }

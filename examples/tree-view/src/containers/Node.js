@@ -21,12 +21,12 @@ export class Node extends Component {
     e.preventDefault()
 
     const { addChild, createNode, id } = this.props
-    const childId = createNode().nodeId
-    const folderName = `folder${childId}`;
+    const folderName = `folder${Math.random()}`;
+
+    const childId = createNode(folderName).nodeId
     addChild({
       nodeId: id,
       childId,
-      folderName
     })
   }
 
@@ -48,7 +48,7 @@ export class Node extends Component {
   }
 
   render() {
-    const { counter, parentId, childIds, filePaths, folderName } = this.props
+    const { parentId, childIds, filePaths, folderName } = this.props
     return (
       <div>
         {folderName}
