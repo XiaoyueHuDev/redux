@@ -14,7 +14,7 @@ const store = createStore(reducer,window.__REDUX_DEVTOOLS_EXTENSION__ && window.
 render(
     <Provider store={store}>
         <TreeHeader />
-        <Node id={0}/>
+        <Node/>
     </Provider>,
     document.getElementById('root')
 )
