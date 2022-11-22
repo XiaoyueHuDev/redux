@@ -9,12 +9,25 @@ export class Node extends Component {
     increment(id)
   }
 
+  handleAddFileClick = () => {
+    const { addFile, id } = this.props
+    addFile({
+      nodeId: id,
+      filePath: `http:xxxxx${Math.random()}.png`
+    });
+  }
+
   handleAddChildClick = e => {
     e.preventDefault()
 
     const { addChild, createNode, id } = this.props
-    const childId = createNode().nodeId
-    addChild(id, childId)
+    const folderName = `folder${Math.random()}`;
+
+    const childId = createNode(folderName).nodeId
+    addChild({
+      nodeId: id,
+      childId,
+    })
   }
 
   handleRemoveClick = e => {
@@ -35,13 +48,13 @@ export class Node extends Component {
   }
 
   render() {
-    const { counter, parentId, childIds } = this.props
+    const { parentId, childIds, filePaths, folderName } = this.props
     return (
       <div>
-        Counter: {counter}
+        {folderName}
         {' '}
-        <button onClick={this.handleIncrementClick}>
-          +
+        <button onClick={this.handleAddFileClick}>
+          add file
         </button>
         {' '}
         {typeof parentId !== 'undefined' &&
@@ -56,9 +69,12 @@ export class Node extends Component {
             <a href="#" // eslint-disable jsx-a11y/anchor-is-valid
               onClick={this.handleAddChildClick}
             >
-              Add child
+              Add Folder
             </a>
           </li>
+          {filePaths.map((filePath, index) => (<li key={index}>
+            file: {filePath}
+          </li>))}
         </ul>
       </div>
     )

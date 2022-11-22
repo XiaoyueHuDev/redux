@@ -1,4 +1,5 @@
-import { INCREMENT, ADD_CHILD, REMOVE_CHILD, CREATE_NODE, DELETE_NODE } from '../actions'
+import { ADD_CHILD, REMOVE_CHILD, CREATE_NODE, DELETE_NODE, ADD_FILE } from '../actions'
+import generateTree from '../generateTree';
 
 const childIds = (state, action) => {
   switch (action.type) {
@@ -16,15 +17,20 @@ const node = (state, action) => {
     case CREATE_NODE:
       return {
         id: action.nodeId,
-        counter: 0,
+        folderName: action.folderName,
+        filePaths:[],
         childIds: []
       }
-    case INCREMENT:
+    case ADD_FILE:
       return {
         ...state,
-        counter: state.counter + 1
+        filePaths: addNewFilePath(state.filePaths, action.filePath)
       }
     case ADD_CHILD:
+      return {
+        ...state,
+        childIds: childIds(state.childIds, action),
+      }
     case REMOVE_CHILD:
       return {
         ...state,
@@ -33,6 +39,10 @@ const node = (state, action) => {
     default:
       return state
   }
+}
+
+const addNewFilePath = (filePaths, newFilePath) => {
+  return [...filePaths, newFilePath];
 }
 
 const getAllDescendantIds = (state, nodeId) => (
@@ -47,7 +57,9 @@ const deleteMany = (state, ids) => {
   return state
 }
 
-export default (state = {}, action) => {
+const initialState = generateTree();
+
+export default (state = initialState, action) => {
   const { nodeId } = action
   if (typeof nodeId === 'undefined') {
     return state

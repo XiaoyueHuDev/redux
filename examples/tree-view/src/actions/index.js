@@ -1,18 +1,20 @@
-export const INCREMENT = 'INCREMENT'
+export const ADD_FILE = 'ADD_FILE'
 export const CREATE_NODE = 'CREATE_NODE'
 export const DELETE_NODE = 'DELETE_NODE'
 export const ADD_CHILD = 'ADD_CHILD'
 export const REMOVE_CHILD = 'REMOVE_CHILD'
 
-export const increment = (nodeId) => ({
-  type: INCREMENT,
-  nodeId
+export const addFile = ({nodeId, filePath}) => ({
+  type: ADD_FILE,
+  nodeId,
+  filePath
 })
 
 let nextId = 0
-export const createNode = () => ({
+export const createNode = (folderName) => ({
   type: CREATE_NODE,
-  nodeId: `new_${nextId++}`
+  nodeId: `new_${nextId++}`,
+  folderName
 })
 
 export const deleteNode = (nodeId) => ({
@@ -20,10 +22,11 @@ export const deleteNode = (nodeId) => ({
   nodeId
 })
 
-export const addChild = (nodeId, childId) => ({
+export const addChild = ({nodeId, childId, folderName}) => ({
   type: ADD_CHILD,
   nodeId,
-  childId
+  childId,
+  folderName
 })
 
 export const removeChild = (nodeId, childId) => ({
