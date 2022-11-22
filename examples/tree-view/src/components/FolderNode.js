@@ -52,12 +52,14 @@ export class Node extends Component {
         const { counter, parentId, childIds, filePaths, folderName,id } = this.props
         console.log( this.props);
         return (
-            <div>
-                {folderName}
-                <Button onClick={this.handleAddFileClick}>
-                    add file
-                </Button>
-                {' '}
+            <div className={'text-color'}>
+                <div className={'test-border'}>
+                    {folderName}
+                    <Button onClick={this.handleAddFileClick}>
+                        add file
+                    </Button>
+                    {' '}
+                </div>
                 {typeof parentId !== 'undefined' &&
                 <a href="#" onClick={this.handleRemoveClick} // eslint-disable-line jsx-a11y/anchor-is-valid
                    style={{ color: 'lightgray', textDecoration: 'none' }}>
@@ -83,9 +85,6 @@ export class Node extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-        console.log('--------------state');
-        console.log(state);
-        console.log(ownProps);
     return state[ownProps.id]
 }
 

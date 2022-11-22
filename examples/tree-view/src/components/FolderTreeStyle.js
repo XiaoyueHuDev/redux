@@ -8,6 +8,7 @@ height:400px;
 .contenner {
     height:100%;
     display:flex;
+    border: 1px solid red;
 }
 .left_part {
     width:40%;
@@ -16,7 +17,17 @@ height:400px;
 .right_part {
     width:60%;
 }
+
+.text-color {
+  color: red;
+}
+
+.test-border {
+  border: 1px solid red;
+  width: 100px;
+}
 `
+
 export const FolderListWrapper = styled.div`
 width:40%;
 border-right:1px solid #e0e0e0;
