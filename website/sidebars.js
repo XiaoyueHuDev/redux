@@ -3,16 +3,16 @@ module.exports = {
     Introduction: [
       'introduction/getting-started',
       'introduction/installation',
-      'introduction/motivation',
+      'introduction/why-rtk-is-redux-today',
       'introduction/core-concepts',
-      'introduction/three-principles',
-      'introduction/prior-art',
       'introduction/learning-resources',
       'introduction/ecosystem',
       'introduction/examples'
     ],
     Tutorials: [
       'tutorials/tutorials-index',
+      'tutorials/quick-start',
+      'tutorials/typescript-quick-start',
       {
         type: 'category',
         label: 'Redux Essentials',
@@ -22,66 +22,97 @@ module.exports = {
           'tutorials/essentials/part-3-data-flow',
           'tutorials/essentials/part-4-using-data',
           'tutorials/essentials/part-5-async-logic',
-          'tutorials/essentials/part-6-performance-normalization'
+          'tutorials/essentials/part-6-performance-normalization',
+          'tutorials/essentials/part-7-rtk-query-basics',
+          'tutorials/essentials/part-8-rtk-query-advanced'
         ]
       },
       {
         type: 'category',
-        label: 'Basic Tutorial',
+        label: 'Redux Fundamentals',
         items: [
-          'basics/basic-tutorial',
-          'basics/actions',
-          'basics/reducers',
-          'basics/store',
-          'basics/data-flow',
-          'basics/usage-with-react',
-          'basics/example'
+          'tutorials/fundamentals/part-1-overview',
+          'tutorials/fundamentals/part-2-concepts-data-flow',
+          'tutorials/fundamentals/part-3-state-actions-reducers',
+          'tutorials/fundamentals/part-4-store',
+          'tutorials/fundamentals/part-5-ui-react',
+          'tutorials/fundamentals/part-6-async-logic',
+          'tutorials/fundamentals/part-7-standard-patterns',
+          'tutorials/fundamentals/part-8-modern-redux'
+        ]
+      },
+      'tutorials/videos'
+    ],
+    'Using Redux': [
+      'usage/index',
+      {
+        type: 'category',
+        label: 'Setup and Organization',
+        collapsed: false,
+        items: [
+          'usage/configuring-your-store',
+          'usage/code-splitting',
+          'usage/server-rendering',
+          'usage/isolating-redux-sub-apps'
         ]
       },
       {
         type: 'category',
-        label: 'Advanced Tutorial',
+        label: 'Code Quality',
+        collapsed: false,
         items: [
-          'advanced/advanced-tutorial',
-          'advanced/async-actions',
-          'advanced/async-flow',
-          'advanced/middleware',
-          'advanced/usage-with-react-router',
-          'advanced/example-reddit-api',
-          'advanced/next-steps'
+          'usage/usage-with-typescript',
+          'usage/writing-tests',
+          'usage/troubleshooting'
+        ]
+      },
+      {
+        type: 'category',
+        label: 'Redux Logic and Patterns',
+        collapsed: false,
+        items: [
+          {
+            type: 'category',
+            label: 'Structuring Reducers',
+            collapsed: true,
+            items: [
+              'usage/structuring-reducers/structuring-reducers',
+              'usage/structuring-reducers/prerequisite-concepts',
+              'usage/structuring-reducers/basic-reducer-structure',
+              'usage/structuring-reducers/splitting-reducer-logic',
+              'usage/structuring-reducers/refactoring-reducer-example',
+              'usage/structuring-reducers/using-combinereducers',
+              'usage/structuring-reducers/beyond-combinereducers',
+              'usage/structuring-reducers/normalizing-state-shape',
+              'usage/structuring-reducers/updating-normalized-data',
+              'usage/structuring-reducers/reusing-reducer-logic',
+              'usage/structuring-reducers/immutable-update-patterns',
+              'usage/structuring-reducers/initializing-state'
+            ]
+          },
+          'usage/reducing-boilerplate',
+          'usage/deriving-data-selectors',
+          'usage/writing-logic-thunks',
+          'usage/implementing-undo-history'
         ]
       }
     ],
-    Recipes: [
-      'recipes/recipe-index',
-      'recipes/configuring-your-store',
-      'recipes/usage-with-typescript',
-      'recipes/migrating-to-redux',
-      'recipes/using-object-spread-operator',
-      'recipes/reducing-boilerplate',
-      'recipes/server-rendering',
-      'recipes/writing-tests',
-      'recipes/computing-derived-data',
-      'recipes/implementing-undo-history',
-      'recipes/isolating-redux-sub-apps',
-      'recipes/using-immutablejs-with-redux',
-      'recipes/code-splitting',
+    'Understanding Redux': [
       {
         type: 'category',
-        label: 'Structuring Reducers',
+        label: 'Thinking in Redux',
         items: [
-          'recipes/structuring-reducers/structuring-reducers',
-          'recipes/structuring-reducers/prerequisite-concepts',
-          'recipes/structuring-reducers/basic-reducer-structure',
-          'recipes/structuring-reducers/splitting-reducer-logic',
-          'recipes/structuring-reducers/refactoring-reducer-example',
-          'recipes/structuring-reducers/using-combinereducers',
-          'recipes/structuring-reducers/beyond-combinereducers',
-          'recipes/structuring-reducers/normalizing-state-shape',
-          'recipes/structuring-reducers/updating-normalized-data',
-          'recipes/structuring-reducers/reusing-reducer-logic',
-          'recipes/structuring-reducers/immutable-update-patterns',
-          'recipes/structuring-reducers/initializing-state'
+          'understanding/thinking-in-redux/motivation',
+          'understanding/thinking-in-redux/three-principles',
+          'understanding/thinking-in-redux/glossary'
+        ]
+      },
+      {
+        type: 'category',
+        label: 'History and Design',
+        items: [
+          'understanding/history-and-design/prior-art',
+          'understanding/history-and-design/middleware'
         ]
       }
     ],
@@ -100,7 +131,6 @@ module.exports = {
       'faq/miscellaneous'
     ],
     'Style Guide': ['style-guide/style-guide'],
-    Other: ['glossary', 'troubleshooting'],
     'API Reference': [
       'api/api-reference',
       'api/createstore',

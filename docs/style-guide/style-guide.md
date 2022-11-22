@@ -48,7 +48,7 @@ Where multiple, equally good options exist, an arbitrary choice can be made to e
 
 Mutating state is the most common cause of bugs in Redux applications, including components failing to re-render properly, and will also break time-travel debugging in the Redux DevTools. **Actual mutation of state values should always be avoided**, both inside reducers and in all other application code.
 
-Use tools such as [`redux-immutable-state-invariant`](https://github.com/leoasis/redux-immutable-state-invariant) to catch mutations during development, and [Immer](https://immerjs.github.io/immer/docs/introduction) to avoid accidental mutations in state updates.
+Use tools such as [`redux-immutable-state-invariant`](https://github.com/leoasis/redux-immutable-state-invariant) to catch mutations during development, and [Immer](https://immerjs.github.io/immer/) to avoid accidental mutations in state updates.
 
 > **Note**: it is okay to modify _copies_ of existing values - that is a normal part of writing immutable update logic. Also, if you are using the Immer library for immutable updates, writing "mutating" logic is acceptable because the real data isn't being mutated - Immer safely tracks changes and generates immutably-updated values internally.
 
@@ -92,29 +92,30 @@ You are not required to use RTK with Redux, and you are free to use other approa
 
 ### Use Immer for Writing Immutable Updates
 
-Writing immutable update logic by hand is frequently difficult and prone to errors. [Immer](https://immerjs.github.io/immer/docs/introduction) allows you to write simpler immutable updates using "mutative" logic, and even freezes your state in development to catch mutations elsewhere in the app. **We recommend using Immer for writing immutable update logic, preferably as part of [Redux Toolkit](../redux-toolkit/overview.md)**.
+Writing immutable update logic by hand is frequently difficult and prone to errors. [Immer](https://immerjs.github.io/immer/) allows you to write simpler immutable updates using "mutative" logic, and even freezes your state in development to catch mutations elsewhere in the app. **We recommend using Immer for writing immutable update logic, preferably as part of [Redux Toolkit](../redux-toolkit/overview.md)**.
 
-### Structure Files as Feature Folders or Ducks
+<a id="structure-files-as-feature-folders-or-ducks"></a>
+
+### Structure Files as Feature Folders with Single-File Logic
 
 Redux itself does not care about how your application's folders and files are structured. However, co-locating logic for a given feature in one place typically makes it easier to maintain that code.
 
-Because of this, **we recommend that most applications should structure files using a "feature folder" approach** (all files for a feature in the same folder) **or the ["ducks" pattern](https://github.com/erikras/ducks-modular-redux)** (all Redux logic for a feature in a single file), rather than splitting logic across separate folders by "type" of code (reducers, actions, etc).
+Because of this, **we recommend that most applications should structure files using a "feature folder" approach** (all files for a feature in the same folder). Within a given feature folder, **the Redux logic for that feature should be written as a single "slice" file**, preferably using the Redux Toolkit `createSlice` API. (This is also known as the ["ducks" pattern](https://github.com/erikras/ducks-modular-redux)). While older Redux codebases often used a "folder-by-type" approach with separate folders for "actions" and "reducers", keeping related logic together makes it easier to find and update that code.
 
-<DetailedExplanation>
+<DetailedExplanation title="Detailed Explanation: Example Folder Structure">
 An example folder structure might look something like:
 
 - `/src`
-  - `index.tsx`
+  - `index.tsx`: Entry point file that renders the React component tree
   - `/app`
-    - `store.ts`
-    - `rootReducer.ts`
-    - `App.tsx`
-  - `/common`
-    - hooks, generic components, utils, etc
-  - `/features`
-    - `/todos`
-      - `todosSlice.ts`
-      - `Todos.tsx`
+    - `store.ts`: store setup
+    - `rootReducer.ts`: root reducer (optional)
+    - `App.tsx`: root React component
+  - `/common`: hooks, generic components, utils, etc
+  - `/features`: contains all "feature folders"
+    - `/todos`: a single feature folder
+      - `todosSlice.ts`: Redux reducer logic and associated actions
+      - `Todos.tsx`: a React component
 
 `/app` contains app-wide setup and layout that depends on all the other folders.
 
@@ -145,7 +146,7 @@ case "todos/toggleTodo": {
     return state.map(todo => {
         if(todo.id !== action.payload.id) return todo;
 
-        return {...todo, id: action.payload.id};
+        return {...todo, completed: !todo.completed };
     })
 }
 ```
@@ -158,7 +159,7 @@ const onTodoClicked = id => {
   const newTodos = todos.map(todo => {
     if (todo.id !== id) return todo
 
-    return { ...todo, id }
+    return { ...todo, completed: !todo.completed }
   })
 
   dispatch({ type: 'todos/toggleTodo', payload: { todos: newTodos } })
@@ -172,7 +173,7 @@ case "todos/toggleTodo":
 However, doing the logic in the reducer is preferable for several reasons:
 
 - Reducers are always easy to test, because they are pure functions - you just call `const result = reducer(testState, action)`, and assert that the result is what you expected. So, the more logic you can put in a reducer, the more logic you have that is easily testable.
-- Redux state updates must always follow [the rules of immutable updates](../recipes/structuring-reducers/ImmutableUpdatePatterns.md). Most Redux users realize they have to follow the rules inside a reducer, but it's not obvious that you _also_ have to do this if the new state is calculated _outside_ the reducer. This can easily lead to mistakes like accidental mutations, or even reading a value from the Redux store and passing it right back inside an action. Doing all of the state calculations in a reducer avoids those mistakes.
+- Redux state updates must always follow [the rules of immutable updates](../usage/structuring-reducers/ImmutableUpdatePatterns.md). Most Redux users realize they have to follow the rules inside a reducer, but it's not obvious that you _also_ have to do this if the new state is calculated _outside_ the reducer. This can easily lead to mistakes like accidental mutations, or even reading a value from the Redux store and passing it right back inside an action. Doing all of the state calculations in a reducer avoids those mistakes.
 - If you are using Redux Toolkit or Immer, it is much easier to write immutable update logic in reducers, and Immer will freeze the state and catch accidental mutations.
 - Time-travel debugging works by letting you "undo" a dispatched action, then either do something different or "redo" the action. In addition, hot-reloading of reducers normally involves re-running the new reducer with the existing actions. If you have a correct action but a buggy reducer, you can edit the reducer to fix the bug, hot-reload it, and you should get the correct state right away. If the action itself was wrong, you'd have to re-run the steps that led to that action being dispatched. So, it's easier to debug if more logic is in the reducer.
 - Finally, putting logic in reducers means you know where to look for the update logic, instead of having it scattered in random other parts of the application code.
@@ -274,6 +275,12 @@ It's a bit more typing, but it results in the most understandable code and state
 
 </DetailedExplanation>
 
+### Organize State Structure Based on Data Types, Not Components
+
+Root state slices should be defined and named based on the major data types or areas of functionality in your application, not based on which specific components you have in your UI. This is because there is not a strict 1:1 correlation between data in the Redux store and components in the UI, and many components may need to access the same data. Think of the state tree as a sort of global database that any part of the app can access to read just the pieces of state needed in that component.
+
+For example, a blogging app might need to track who is logged in, information on authors and posts, and perhaps some info on what screen is active. A good state structure might look like `{auth, posts, users, ui}`. A bad structure would be something like `{loginScreen, usersList, postsList}`.
+
 ### Treat Reducers as State Machines
 
 Many Redux reducers are written "unconditionally". They only look at the dispatched action and calculate a new state value, without basing any of the logic on what the current state might be. This can cause bugs, as some actions may not be "valid" conceptually at certain times depending on the rest of the app logic. For example, a "request succeeded" action should only have a new value calculated if the state says that it's already "loading", or an "update this item" action should only be dispatched if there is an item marked as "being edited".
@@ -355,7 +362,19 @@ Now, since you're defining behavior per state instead of per action, you also pr
 
 Many applications need to cache complex data in the store. That data is often received in a nested form from an API, or has relations between different entities in the data (such as a blog that contains Users, Posts, and Comments).
 
-**Prefer storing that data in [a "normalized" form](../recipes/structuring-reducers/NormalizingStateShape.md) in the store**. This makes it easier to look up items based on their ID and update a single item in the store, and ultimately leads to better performance patterns.
+**Prefer storing that data in [a "normalized" form](../usage/structuring-reducers/NormalizingStateShape.md) in the store**. This makes it easier to look up items based on their ID and update a single item in the store, and ultimately leads to better performance patterns.
+
+### Keep State Minimal and Derive Additional Values
+
+Whenever possible, **keep the actual data in the Redux store as minimal as possible, and _derive_ additional values from that state as needed**. This includes things like calculating filtered lists or summing up values. As an example, a todo app would keep an original list of todo objects in state, but derive a filtered list of todos outside the state whenever the state is updated. Similarly, a check for whether all todos have been completed, or number of todos remaining, can be calculated outside the store as well.
+
+This has several benefits:
+
+- The actual state is easier to read
+- Less logic is needed to calculate those additional values and keep them in sync with the rest of the data
+- The original state is still there as a reference and isn't being replaced
+
+Deriving data is often done in "selector" functions, which can encapsulate the logic for doing the derived data calculations. In order to improve performance, these selectors can be _memoized_ to cache previous results, using libraries like `reselect` and `proxy-memoize`.
 
 ### Model Actions as Events, Not Setters
 
@@ -430,9 +449,9 @@ If multiple dispatches are truly necessary, consider batching the updates in som
 
 ### Evaluate Where Each Piece of State Should Live
 
-The ["Three Principles of Redux"](../introduction/ThreePrinciples.md) says that "the state of your whole application is stored in a single tree". This phrasing has been over-interpreted. It does not mean that literally _every_ value in the entire app _must_ be kept in the Redux store. Instead, **there should be a single place to find all values that _you_ consider to be global and app-wide**. Values that are "local" should generally be kept in the nearest UI component instead.
+The ["Three Principles of Redux"](../understanding/thinking-in-redux/ThreePrinciples.md) says that "the state of your whole application is stored in a single tree". This phrasing has been over-interpreted. It does not mean that literally _every_ value in the entire app _must_ be kept in the Redux store. Instead, **there should be a single place to find all values that _you_ consider to be global and app-wide**. Values that are "local" should generally be kept in the nearest UI component instead.
 
-Because of this, it is up to you as a developer to decide what state should actually live in the Redux store, and what should stay in component state. **[Use these rules of thumb to help evaluate each piece of state and decide where it should live](../faq/OrganizingState.md#do-i-have-to-put-all-my-state-into-redux-should-i-ever-use-reacts-setstate)**.
+Because of this, it is up to you as a developer to decide what state should actually live in the Redux store, and what should stay in component state. **[Use these rules of thumb to help evaluate each piece of state and decide where it should live](../faq/OrganizingState.md#do-i-have-to-put-all-my-state-into-redux-should-i-ever-use-reacts-usestate-or-usereducer)**.
 
 ### Use the React-Redux Hooks API
 
@@ -485,13 +504,13 @@ However, try to find an appropriate balance of granularity. If a single componen
 
 ### Use the Redux DevTools Extension for Debugging
 
-**Configure your Redux store to enable [debugging with the Redux DevTools Extension](https://github.com/zalmoxisus/redux-devtools-extension)**. It allows you to view:
+**Configure your Redux store to enable [debugging with the Redux DevTools Extension](https://github.com/reduxjs/redux-devtools/tree/main/extension)**. It allows you to view:
 
 - The history log of dispatched actions
 - The contents of each action
 - The final state after an action was dispatched
 - The diff in the state after an action
-- The [function stack trace showing the code where the action was actually dispatched](https://github.com/zalmoxisus/redux-devtools-extension/blob/master/docs/Features/Trace.md)
+- The [function stack trace showing the code where the action was actually dispatched](https://github.com/reduxjs/redux-devtools/blob/main/extension/docs/Features/Trace.md)
 
 In addition, the DevTools allows you to do "time-travel debugging", stepping back and forth in the action history to see the entire app state and UI at different points in time.
 
@@ -572,7 +591,7 @@ This led to a wide variety of Redux async middleware addons being created, and t
 
 **We recommend [using the Redux Thunk middleware by default](https://github.com/reduxjs/redux-thunk)**, as it is sufficient for most typical use cases (such as basic AJAX data fetching). In addition, use of the `async/await` syntax in thunks makes them easier to read.
 
-If you have truly complex async workflows that involve things like cancelation, debouncing, running logic after a given action was dispatched, or "background-thread"-type behavior, then consider adding more powerful async middleware like Redux-Saga or Redux-Observable.
+If you have truly complex async workflows that involve things like cancellation, debouncing, running logic after a given action was dispatched, or "background-thread"-type behavior, then consider adding more powerful async middleware like Redux-Saga or Redux-Observable.
 
 ### Move Complex Logic Outside Components
 
@@ -589,6 +608,10 @@ However, **the use of React hooks does make it somewhat easier to manage logic l
 **We strongly recommend using memoized selector functions for reading store state whenever possible**, and recommend creating those selectors with Reselect.
 
 However, don't feel that you _must_ write selector functions for every field in your state. Find a reasonable balance for granularity, based on how often fields are accessed and updated, and how much actual benefit the selectors are providing in your application.
+
+### Name Selector Functions as `selectThing`
+
+**We recommend prefixing selector function names with the word `select`**, combined with a description of the value being selected. Examples of this would be `selectTodos`, `selectVisibleTodos`, and `selectTodoById`.
 
 ### Avoid Putting Form State In Redux
 

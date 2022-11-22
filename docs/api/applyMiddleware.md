@@ -2,15 +2,18 @@
 id: applymiddleware
 title: applyMiddleware
 hide_title: true
+description: 'API > applyMiddleware: extending the Redux store'
 ---
+
+&nbsp;
 
 # `applyMiddleware(...middleware)`
 
 Middleware is the suggested way to extend Redux with custom functionality. Middleware lets you wrap the store's [`dispatch`](Store.md#dispatchaction) method for fun and profit. The key feature of middleware is that it is composable. Multiple middleware can be combined together, where each middleware requires no knowledge of what comes before or after it in the chain.
 
-The most common use case for middleware is to support asynchronous actions without much boilerplate code or a dependency on a library like [Rx](https://github.com/Reactive-Extensions/RxJS). It does so by letting you dispatch [async actions](../Glossary.md#async-action) in addition to normal actions.
+The most common use case for middleware is to support asynchronous actions without much boilerplate code or a dependency on a library like [Rx](https://github.com/Reactive-Extensions/RxJS). It does so by letting you dispatch [async actions](../understanding/thinking-in-redux/Glossary.md#async-action) in addition to normal actions.
 
-For example, [redux-thunk](https://github.com/gaearon/redux-thunk) lets the action creators invert control by dispatching functions. They would receive [`dispatch`](Store.md#dispatchaction) as an argument and may call it asynchronously. Such functions are called _thunks_. Another example of middleware is [redux-promise](https://github.com/acdlite/redux-promise). It lets you dispatch a [Promise](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise) async action, and dispatches a normal action when the Promise resolves.
+For example, [redux-thunk](https://github.com/reduxjs/redux-thunk) lets the action creators invert control by dispatching functions. They would receive [`dispatch`](Store.md#dispatchaction) as an argument and may call it asynchronously. Such functions are called _thunks_. Another example of middleware is [redux-promise](https://github.com/acdlite/redux-promise). It lets you dispatch a [Promise](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise) async action, and dispatches a normal action when the Promise resolves.
 
 Middleware is not baked into [`createStore`](createStore.md) and is not a fundamental part of the Redux architecture, but we consider it useful enough to be supported right in the core. This way, there is a single standard way to extend [`dispatch`](Store.md#dispatchaction) in the ecosystem, and different middleware may compete in expressiveness and utility.
 
@@ -170,23 +173,17 @@ store
 // I can also dispatch a thunk async action from a component
 // any time its props change to load the missing data.
 
+import React from 'react'
 import { connect } from 'react-redux'
-import { Component } from 'react'
 
-class SandwichShop extends Component {
-  componentDidMount() {
-    this.props.dispatch(makeASandwichWithSecretSauce(this.props.forPerson))
-  }
+function SandwichShop(props) {
+  const { dispatch, forPerson } = props
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.forPerson !== this.props.forPerson) {
-      this.props.dispatch(makeASandwichWithSecretSauce(this.props.forPerson))
-    }
-  }
+  useEffect(() => {
+    dispatch(makeASandwichWithSecretSauce(forPerson))
+  }, [forPerson])
 
-  render() {
-    return <p>{this.props.sandwiches.join('mustard')}</p>
-  }
+  return <p>{this.props.sandwiches.join('mustard')}</p>
 }
 
 export default connect(state => ({
@@ -219,7 +216,7 @@ export default connect(state => ({
 
   This makes it easier for bundling tools to cut out unneeded modules and reduces the size of your builds.
 
-- Ever wondered what `applyMiddleware` itself is? It ought to be an extension mechanism more powerful than the middleware itself. Indeed, `applyMiddleware` is an example of the most powerful Redux extension mechanism called [store enhancers](../Glossary.md#store-enhancer). It is highly unlikely you'll ever want to write a store enhancer yourself. Another example of a store enhancer is [redux-devtools](https://github.com/reduxjs/redux-devtools). Middleware is less powerful than a store enhancer, but it is easier to write.
+- Ever wondered what `applyMiddleware` itself is? It ought to be an extension mechanism more powerful than the middleware itself. Indeed, `applyMiddleware` is an example of the most powerful Redux extension mechanism called [store enhancers](../understanding/thinking-in-redux/Glossary.md#store-enhancer). It is highly unlikely you'll ever want to write a store enhancer yourself. Another example of a store enhancer is [redux-devtools](https://github.com/reduxjs/redux-devtools). Middleware is less powerful than a store enhancer, but it is easier to write.
 
 - Middleware sounds much more complicated than it really is. The only way to really understand middleware is to see how the existing middleware works, and try to write your own. The function nesting can be intimidating, but most of the middleware you'll find are, in fact, 10-liners, and the nesting and composability is what makes the middleware system powerful.
 

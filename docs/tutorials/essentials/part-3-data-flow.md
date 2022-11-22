@@ -2,13 +2,10 @@
 id: part-3-data-flow
 title: 'Redux Essentials, Part 3: Basic Redux Data Flow'
 sidebar_label: 'Basic Redux Data Flow'
-hide_title: true
-description: 'The official Essentials tutorial for Redux: learn how to use Redux, the right way'
+description: 'The official Redux Essentials tutorial: learn how data flows in a React + Redux app'
 ---
 
 import { DetailedExplanation } from '../../components/DetailedExplanation'
-
-# Redux Essentials, Part 3: Basic Redux Data Flow
 
 :::tip What You'll Learn
 
@@ -20,7 +17,7 @@ import { DetailedExplanation } from '../../components/DetailedExplanation'
 
 :::info Prerequisites
 
-- Familiarity with key Redux terms and concepts like "actions", "reducers", "store", and "dispatching". (See **[Part 1](./part-1-overview-concepts.md)** for explanations of these terms.)
+- Familiarity with key Redux terms and concepts like "actions", "reducers", "store", and "dispatching". (See [**Part 1: Redux Overview and Concepts**](./part-1-overview-concepts.md) for explanations of these terms.)
 
 :::
 
@@ -44,7 +41,7 @@ To get started, you can open and fork this CodeSandbox:
 
 <iframe
   class="codesandbox"
-  src="https://codesandbox.io/embed/github/reduxjs/redux-essentials-example-app/tree/master/?fontsize=14&hidenavigation=1&theme=dark"
+  src="https://codesandbox.io/embed/github/reduxjs/redux-essentials-example-app/tree/master/?codemirror=1&fontsize=14&hidenavigation=1&theme=dark&runonclick=1"
   title="redux-quick-start-example-app"
   allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
   sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
@@ -86,6 +83,7 @@ ReactDOM.render(
 
 Let's take a quick look at what the initial project contains:
 
+- `/public`: the HTML host page template and other static files like icons
 - `/src`
   - `index.js`: the entry point file for the application. It renders the React-Redux `<Provider>` component and the main `<App>` component.
   - `App.js`: the main application component. Renders the top navbar and handles client-side routing for the other content.
@@ -172,12 +170,12 @@ export const PostsList = () => {
   const renderedPosts = posts.map(post => (
     <article className="post-excerpt" key={post.id}>
       <h3>{post.title}</h3>
-      <p>{post.content.substring(0, 100)}</p>
+      <p className="post-content">{post.content.substring(0, 100)}</p>
     </article>
   ))
 
   return (
-    <section>
+    <section className="posts-list">
       <h2>Posts</h2>
       {renderedPosts}
     </section>
@@ -185,7 +183,7 @@ export const PostsList = () => {
 }
 ```
 
-We then need to update the routing in `App.js` so that we show the `PostsList` component instead of the "welcome" message. Import the `PostsList` component into `App.js`, and replace the welcome text with `<PostsList />`. We'll also wrap it in a React Fragment, because we're going to add something else to the main page soon:
+We then need to update the routing in `App.js` so that we show the `PostsList` component instead of the "welcome" message. Import the `PostsList` component into `App.js`, and replace the welcome text with `<PostsList />`. We'll also wrap it in a [React Fragment](https://reactjs.org/docs/fragments.html), because we're going to add something else to the main page soon:
 
 ```jsx title="App.js"
 import React from 'react'
@@ -428,7 +426,7 @@ Notice that our `AddPostForm` component has some React `useState` hooks inside, 
 
 Let's recap what you've learned in this section:
 
-:::tip
+:::tip Summary
 
 - **Redux state is updated by "reducer functions"**:
   - Reducers always calculate a new state _immutably_, by copying existing state values and modifying the copies with the new data
@@ -449,7 +447,7 @@ Here's what the app looks like so far:
 
 <iframe
   class="codesandbox"
-  src="https://codesandbox.io/embed/github/reduxjs/redux-essentials-example-app/tree/checkpoint-1-postAdded/?fontsize=14&hidenavigation=1&theme=dark"
+  src="https://codesandbox.io/embed/github/reduxjs/redux-essentials-example-app/tree/checkpoint-1-postAdded/?codemirror=1&fontsize=14&hidenavigation=1&theme=dark&runonclick=1"
   title="redux-quick-start-example-app"
   allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
   sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"

@@ -2,7 +2,6 @@ export default function generateTree() {
   let tree = {
     0: {
       id: 0,
-      counter: 0,
       filePaths: ['http:xxxxxxxx.png'],
       folderName: 'folder0',
       childIds: []
@@ -14,7 +13,6 @@ export default function generateTree() {
     // let parentId = Math.floor(Math.pow(Math.random(), 2) * i)
     tree[i] = {
       id: i,
-      counter: 0,
       filePaths: ['http:xxxxxxxx01.png'],
       folderName: `folder${i}`,
       childIds: []

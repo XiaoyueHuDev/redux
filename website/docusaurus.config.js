@@ -1,3 +1,9 @@
+const { resolve } = require('path')
+const {
+  linkDocblocks,
+  transpileCodeblocks,
+} = require('remark-typescript-tools')
+
 module.exports = {
   title: 'Redux',
   tagline: 'A Predictable State Container for JS Apps',
@@ -7,19 +13,21 @@ module.exports = {
   organizationName: 'reduxjs',
   projectName: 'redux',
   themeConfig: {
-    image: 'https://redux.js.org/img/redux-logo-landscape.png',
-    disableDarkMode: false,
+    image: 'img/redux-logo-landscape.png',
+    metadata: [{ name: 'twitter:card', content: 'summary' }],
     prism: {
       theme: require('./src/js/monokaiTheme.js')
     },
+    colorMode: {
+      disableSwitch: false
+    },
     navbar: {
       title: 'Redux',
-      image: 'img/redux-logo-landscape.png',
       logo: {
         alt: 'Redux Logo',
         src: 'img/redux.svg'
       },
-      links: [
+      items: [
         {
           label: 'Getting Started',
           to: 'introduction/getting-started',
@@ -30,11 +38,23 @@ module.exports = {
           to: 'tutorials/essentials/part-1-overview-concepts',
           position: 'right'
         },
-        { label: 'API', to: 'api/api-reference', position: 'right' },
+        {
+          label: 'Usage Guide',
+          type: 'doc',
+          docId: 'usage/index',
+          position: 'right'
+        },
+        {
+          label: 'API',
+          type: 'doc',
+          docId: 'api/api-reference',
+          position: 'right'
+        },
         { label: 'FAQ', to: 'faq', position: 'right' },
         {
           label: 'Best Practices',
-          to: '/style-guide/style-guide',
+          type: 'doc',
+          docId: 'style-guide/style-guide',
           position: 'right'
         },
         {
@@ -59,6 +79,7 @@ module.exports = {
               label: 'Getting Started',
               to: 'introduction/getting-started'
             },
+            { label: 'Usage Guide', type: 'doc', to: 'usage' },
             {
               label: 'Tutorial',
               to: 'tutorials/essentials/part-1-overview-concepts'
@@ -68,11 +89,8 @@ module.exports = {
               to: 'faq'
             },
             {
-              label: 'Tutorial',
-              to: 'basics/basic-tutorial'
-            },
-            {
               label: 'API Reference',
+              type: 'doc',
               to: 'api/api-reference'
             }
           ]
@@ -80,6 +98,10 @@ module.exports = {
         {
           title: 'Community',
           items: [
+            {
+              label: 'Reactiflux Discord',
+              href: 'https://discord.gg/0ZcbPKXt5bZ6au5t'
+            },
             {
               label: 'Stack Overflow',
               href: 'http://stackoverflow.com/questions/tagged/redux'
@@ -102,7 +124,7 @@ module.exports = {
                 <a href="https://www.netlify.com">
                   <img
                     src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg"
-                    alt="Deploys by Netlify"
+                    alt="Deployed by Netlify"
                   />
                 </a>
               `
@@ -118,12 +140,10 @@ module.exports = {
       copyright: `Copyright © 2015–${new Date().getFullYear()} Dan Abramov and the Redux documentation authors.`
     },
     algolia: {
-      apiKey: '518c6e3c629811d8daa1d21dc8bcfa37',
+      appId: 'YUQHC5OCW0',
+      apiKey: 'ef8f3e604a1e7ed3afa4dbaeeecfa5f2',
       indexName: 'redux',
       algoliaOptions: {}
-    },
-    googleAnalytics: {
-      trackingID: 'UA-130598673-1'
     }
   },
   presets: [
@@ -133,10 +153,39 @@ module.exports = {
         docs: {
           path: '../docs',
           routeBasePath: '/',
-          sidebarPath: require.resolve('./sidebars.js')
+          sidebarPath: require.resolve('./sidebars.js'),
+          showLastUpdateTime: true,
+          editUrl: 'https://github.com/reduxjs/redux/edit/master/website',
+          remarkPlugins: [
+            [
+              linkDocblocks,
+              {
+                extractorSettings: {
+                  tsconfig: resolve(__dirname, './tsconfig.json'),
+                  basedir: resolve(__dirname, '../src'),
+                  rootFiles: [
+                    'index.ts',
+                  ],
+                },
+              },
+            ],
+            [
+              transpileCodeblocks,
+              {
+                compilerSettings: {
+                  tsconfig: resolve(__dirname, './tsconfig.json'),
+                  externalResolutions: {},
+                  transformVirtualFilepath: (path) => path.replace('/docs/', '/website/')
+                },
+              },
+            ],
+          ],
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css')
+        },
+        googleAnalytics: {
+          trackingID: 'UA-130598673-1'
         }
       }
     ]

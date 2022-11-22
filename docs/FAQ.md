@@ -1,7 +1,8 @@
 ---
 id: faq
 title: FAQ Index
-hide_title: true
+sidebar_label: FAQ Index
+description: 'FAQ Index: Frequently Asked Questions about Redux'
 ---
 
 # Redux FAQ
@@ -17,7 +18,7 @@ hide_title: true
   - [How do I share state between two reducers? Do I have to use combineReducers?](faq/Reducers.md#how-do-i-share-state-between-two-reducers-do-i-have-to-use-combinereducers)
   - [Do I have to use the switch statement to handle actions?](faq/Reducers.md#do-i-have-to-use-the-switch-statement-to-handle-actions)
 - **Organizing State**
-  - [Do I have to put all my state into Redux? Should I ever use React's setState()?](faq/OrganizingState.md#do-i-have-to-put-all-my-state-into-redux-should-i-ever-use-reacts-setstate)
+  - [Do I have to put all my state into Redux? Should I ever use React's `useState` or `useReducer`?](faq/OrganizingState.md#do-i-have-to-put-all-my-state-into-redux-should-i-ever-use-reacts-usestate-or-usereducer)
   - [Can I put functions, promises, or other non-serializable items in my store state?](faq/OrganizingState.md#can-i-put-functions-promises-or-other-non-serializable-items-in-my-store-state)
   - [How do I organize nested or duplicate data in my state?](faq/OrganizingState.md#how-do-i-organize-nested-or-duplicate-data-in-my-state)
   - [Should I put form state or other UI state in my store?](faq/OrganizingState.md#should-i-put-form-state-or-other-ui-state-in-my-store)
@@ -34,19 +35,14 @@ hide_title: true
 - **Immutable Data**
   - [What are the benefits of immutability?](faq/ImmutableData.md#what-are-the-benefits-of-immutability)
   - [Why is immutability required by Redux?](faq/ImmutableData.md#why-is-immutability-required-by-redux)
-  - [What approaches are there for handling data immutability? Do I have to use Immutable.JS?](faq/ImmutableData.md#what-approaches-are-there-for-handling-data-immutability-do-i-have-to-use-immutable-js)
+  - [What approaches are there for handling data immutability? Do I have to use Immer?](faq/ImmutableData.md#what-approaches-are-there-for-handling-data-immutability-do-i-have-to-use-immer)
   - [What are the issues with using JavaScript for immutable operations?](faq/ImmutableData.md#what-are-the-issues-with-using-plain-javascript-for-immutable-operations)
-- **Using Immutable.JS with Redux**
-  - [Why should I use an immutable-focused library such as Immutable.JS?](recipes/UsingImmutableJS.md#why-should-i-use-an-immutable-focused-library-such-as-immutable-js)
-  - [Why should I choose Immutable.JS as an immutable library?](recipes/UsingImmutableJS.md#why-should-i-choose-immutable-js-as-an-immutable-library)
-  - [What are the issues with using Immutable.JS?](recipes/UsingImmutableJS.md#what-are-the-issues-with-using-immutable-js)
-  - [Is Immutable.JS worth the effort?](recipes/UsingImmutableJS.md#is-using-immutable-js-worth-the-effort)
-  - [What are some opinionated Best Practices for using Immutable.JS with Redux?](recipes/UsingImmutableJS.md#what-are-some-opinionated-best-practices-for-using-immutable-js-with-redux)
 - **Code Structure**
   - [What should my file structure look like? How should I group my action creators and reducers in my project? Where should my selectors go?](faq/CodeStructure.md#what-should-my-file-structure-look-like-how-should-i-group-my-action-creators-and-reducers-in-my-project-where-should-my-selectors-go)
   - [How should I split my logic between reducers and action creators? Where should my “business logic” go?](faq/CodeStructure.md#how-should-i-split-my-logic-between-reducers-and-action-creators-where-should-my-business-logic-go)
   - [Why should I use action creators?](faq/CodeStructure.md#why-should-i-use-action-creators)
   - [Where should websockets and other persistent connections live?](faq/CodeStructure.md#where-should-websockets-and-other-persistent-connections-live)
+  - [How can I use the Redux store in non-component files?](faq/CodeStructure.md#how-can-i-use-the-redux-store-in-non-component-files)
 - **Performance**
   - [How well does Redux “scale” in terms of performance and architecture?](faq/Performance.md#how-well-does-redux-scale-in-terms-of-performance-and-architecture)
   - [Won't calling “all my reducers” for each action be slow?](faq/Performance.md#wont-calling-all-my-reducers-for-each-action-be-slow)

@@ -16,11 +16,15 @@
   --ifm-code-font-size: 95%;
   --ifm-code-border-radius: 3px;
   --ifm-code-background: rgba(27, 31, 35, 0.05);
+
   --ifm-blockquote-color: #ecf4f9;
   --ifm-blockquote-color-dark: #cbddea;
+  --blockquote-text-color: var(--ifm-font-base-color);
 
   --ifm-code-padding-vertical: 0.1rem;
   --ifm-code-padding-horizontal: 0.2rem;
+  --ifm-tabs-padding-vertical: 0.2rem;
+  --ifm-tabs-padding-horizontal: 0.4rem;
   --ifm-pre-background: rgb(39, 40, 34);
 
   --ifm-alert-color: black;
@@ -62,8 +66,9 @@
   --ifm-color-primary-lighter: #cc8ffc;
   --ifm-color-primary-lightest: #fcf2ff;
 
-  --ifm-blockquote-color: #1a1d1e;
+  --ifm-blockquote-color: #ecf4f9;
   --ifm-blockquote-color-dark: #6d1cac;
+  --blockquote-text-color: black;
 }
 
 :root[data-theme='dark'] .hero.hero--primary {
@@ -72,10 +77,20 @@
 }
 
 blockquote {
-  color: var(--ifm-font-base-color);
+  color: var(--blockquote-text-color);
   background-color: var(--ifm-blockquote-color);
   border-left: 6px solid var(--ifm-blockquote-color-dark);
   border-radius: var(--ifm-global-radius);
+}
+
+.admonition a,
+blockquote a {
+  color: var(--ifm-color-primary-darkest);
+  text-decoration: none;
+}
+.admonition a:hover,
+blockquote a:hover {
+  color: var(--blockquote-text-color);
 }
 
 .docusaurus-highlight-code-line {
@@ -93,12 +108,22 @@ div[class*='codeBlockTitle'] {
   padding: 0.15rem var(--ifm-pre-padding);
 }
 
+:root[data-theme='dark'] .admonition code {
+  color: var(--ifm-blockquote-color);
+}
+
+:root[data-theme='dark'] blockquote code {
+  color: var(--ifm-blockquote-color);
+}
+
 code {
   background-color: var(--ifm-color-emphasis-300);
   border-radius: 0.2rem;
 }
 
-a code {
+a code,
+code a {
+  background-color: var(--ifm-color-emphasis-200);
   color: inherit;
 }
 
@@ -163,9 +188,15 @@ a:visited {
 .style-guide details,
 details.detailed-explanation {
   background-color: var(--ifm-blockquote-color);
+  color: var(--blockquote-text-color);
   margin: 0.25rem 0;
   padding: 0.5rem 0.5rem;
   border-radius: var(--ifm-global-radius);
+}
+
+.style-guide details h4,
+details.detailed-explanation h4 {
+  color: var(--blockquote-text-color);
 }
 
 .style-guide details summary,
@@ -175,9 +206,7 @@ details.detailed-explanation summary {
 
 .style-guide details summary h4,
 details.detailed-explanation summary h4 {
-  display: inline-block;
-  margin-top: 0;
-  margin-bottom: 0;
+  display: inline;
 }
 
 .style-guide details p,
@@ -193,22 +222,25 @@ details.detailed-explanation p {
 }
 
 .style-guide .priority-essential h3:after {
-  content: ' ESSENTIAL';
+  content: 'ESSENTIAL';
   color: var(--ifm-color-danger);
+  position: relative;
 }
 
 .style-guide .priority-stronglyrecommended h3:after {
-  content: ' STRONGLY RECOMMENDED';
+  content: 'STRONGLY RECOMMENDED';
   color: var(--ifm-color-warning);
+  position: relative;
 }
 
 .style-guide .priority-recommended h3:after {
-  content: ' RECOMMENDED';
+  content: 'RECOMMENDED';
   color: var(--ifm-color-info);
+  position: relative;
 }
 
 .admonition {
-  color: var(--ifm-font-base-color);
+  color: black;
   border-radius: var(--ifm-global-radius);
   border-left: 6px solid var(--ra-admonition-color-dark);
 }
