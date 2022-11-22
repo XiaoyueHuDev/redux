@@ -10,8 +10,8 @@ const tree = generateTree()
 const store = createStore(reducer, tree)
 
 render(
-  <Provider store={store}>
-    <Node id={0} />
-  </Provider>,
-  document.getElementById('root')
+    <Provider store={store}>
+        <Node id={0}/>
+    </Provider>,
+    document.getElementById('root')
 )

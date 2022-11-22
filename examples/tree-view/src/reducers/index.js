@@ -1,4 +1,4 @@
-import { INCREMENT, ADD_CHILD, REMOVE_CHILD, CREATE_NODE, DELETE_NODE } from '../actions'
+import { INCREMENT, ADD_CHILD, REMOVE_CHILD, CREATE_NODE, DELETE_NODE, ADD_FILE } from '../actions'
 
 const childIds = (state, action) => {
   switch (action.type) {
@@ -12,11 +12,14 @@ const childIds = (state, action) => {
 }
 
 const node = (state, action) => {
+  console.log('----- node state --------');
+  console.log(action);
   switch (action.type) {
     case CREATE_NODE:
       return {
         id: action.nodeId,
         counter: 0,
+        filePaths:[],
         childIds: []
       }
     case INCREMENT:
@@ -24,7 +27,17 @@ const node = (state, action) => {
         ...state,
         counter: state.counter + 1
       }
+    case ADD_FILE:
+      return {
+        ...state,
+        filePaths: addNewFilePath(state.filePaths, action.filePath)
+      }
     case ADD_CHILD:
+      return {
+        ...state,
+        childIds: childIds(state.childIds, action),
+        folderName: action.folderName
+      }
     case REMOVE_CHILD:
       return {
         ...state,
@@ -33,6 +46,10 @@ const node = (state, action) => {
     default:
       return state
   }
+}
+
+const addNewFilePath = (filePaths, newFilePath) => {
+  return [...filePaths, newFilePath];
 }
 
 const getAllDescendantIds = (state, nodeId) => (
@@ -62,4 +79,6 @@ export default (state = {}, action) => {
     ...state,
     [nodeId]: node(state[nodeId], action)
   }
+
+  // return Object.assign(state,{ [nodeId]: node(state[nodeId], action)} )
 }
