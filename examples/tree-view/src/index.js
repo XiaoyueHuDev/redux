@@ -4,14 +4,15 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from './reducers'
 import generateTree from './generateTree'
-import Node from './containers/Node'
+// import Node from './containers/Node'
+import Node from './components/FolderTree'
 
 const tree = generateTree()
 const store = createStore(reducer,window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
 render(
     <Provider store={store}>
-        <Node id={0}/>
+        <Node/>
     </Provider>,
     document.getElementById('root')
 )
