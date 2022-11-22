@@ -49,6 +49,7 @@ export class Node extends Component {
 
   render() {
     const { counter, parentId, childIds, filePaths, folderName } = this.props
+    console.log(this.props);
     return (
       <div>
         {folderName}
