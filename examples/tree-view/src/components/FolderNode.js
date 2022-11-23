@@ -3,7 +3,7 @@ import { Component } from 'react'
 import { connect } from 'react-redux'
 import * as actions from '../actions'
 import {Button} from 'antd'
-import {FolderOutlined, RightOutlined, DownOutlined} from '@ant-design/icons'
+import {FolderOutlined, RightOutlined} from '@ant-design/icons'
 export class Node extends Component {
 
     constructor(props) {
@@ -13,9 +13,11 @@ export class Node extends Component {
           defaultId:0,
           selectFolder:0
         }
+        this.handelClick = this.props.click
       }
 
     handleAddFileClick = () => {
+        console.log(this);
         const { addFile, id } = this.props
         addFile({
             nodeId: id,
@@ -47,56 +49,55 @@ export class Node extends Component {
 
     renderChild = childId => {
         const { id } = this.props
+        console.log(this.props);
         return (
             <li key={childId}>
-                <ConnectedNode id={childId} parentId={id} />
+                <ConnectedNode click={this.props.click} id={childId} parentId={id} />
             </li>
         )
     }
 
     render() {
         const { parentId, childIds, filePaths, folderName,id } = this.props
-        console.log( this.props);
-        console.log(this.state);
+        // console.log( this.props);
         return (
             <div className={'list-folder'}>
                 <div
                     onClick={() => {this.setState({selectFolder:id})}}
-                    className={'folder-name'}
+                    // className={'folder-name'}
+                    className={this.state.selectFolder === id&&'folder-visited'}
                 >
                     {
                         childIds.length?
-                        (this.state.show ?
-                        <DownOutlined onClick={() => {this.setState({show:!this.state.show})}}/> :
-                        <RightOutlined onClick={() => {this.setState({show:!this.state.show})}}/>):
+                            <RightOutlined className={this.state.show?'rote':'rote-back'} onClick={() => {this.setState({show:!this.state.show})}}/>:
                         null
                     }
                     <FolderOutlined/>
                     {folderName}
-                    {/* <Button onClick={this.handleAddFileClick}>
+                    <Button onClick={this.handleAddFileClick}>
                         add file
-                    </Button> */}
+                    </Button>
                     {' '}
                 </div>
-                {/* {typeof parentId !== 'undefined' &&
+                {typeof parentId !== 'undefined' &&
                 <a href="#" onClick={this.handleRemoveClick}
                    style={{ color: 'lightgray', textDecoration: 'none' }}>
                     ×
                 </a>
-                } */}
+                }
                 <ul className={this.state.show ? 'show' : 'hidden'}>
                     {childIds&&childIds.map(this.renderChild)}
-                    {/* <li key="add">
+                    <li key="add">
                         <a href="#"
                            onClick={this.handleAddChildClick}
                         >
                             Add Folder
                         </a>
-                    </li> */}
-                    {/* {filePaths.map((filePath, index) => (<li key={index}>
+                    </li>
+                    {filePaths.map((filePath, index) => (<li key={index}>
               file: {filePath}
             </li>
-            ))} */}
+            ))}
                 </ul>
             </div>
         )

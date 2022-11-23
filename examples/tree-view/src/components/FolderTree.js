@@ -9,17 +9,19 @@ import {Button} from 'antd'
 import TreeHeader from './TreeHeader'
 export default class Node extends Component {
 
-
+    handelClick = () => {
+        console.log(33);
+    }
 
   render() {
     return (
       <FolderTreeWrapper>
-        <TreeHeader />
+        <TreeHeader clike={this.handelClick}/>
           <div className='contenner'>
 
             <div className='left_part'>
               {/* <DownOutlined/> */}
-              <FolderNode id={0}/>
+              <FolderNode id={0} clike={this.handelClick}/>
             </div>
 
             <div className='right_part'>

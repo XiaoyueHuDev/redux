@@ -33,8 +33,16 @@ ul{
     background:#eee
 }
 .folder-visited {
-    background:red;
+    background:#ddd;
     width:100%
+}
+.rote{
+  transform: rotate(90deg);
+  transition: transform .2s linear;
+}
+.rote-back{
+  transform: rotate(0deg);
+  transition: transform .2s linear;
 }
 `
 
@@ -53,6 +61,7 @@ align-items:center;
 border-bottom:1px solid #e0e0e0;
 .headerLeft {
     margin:10px;
+    display:flex
 }
 .addFolder {
     cursor: pointer;

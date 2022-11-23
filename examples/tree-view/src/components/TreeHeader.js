@@ -3,7 +3,7 @@ import { Component } from 'react'
 import { connect } from 'react-redux'
 import * as actions from '../actions'
 import {TreeHeaderWrapper} from './FolderTreeStyle'
-import {FolderOutlined, FolderAddOutlined} from '@ant-design/icons'
+import {FileAddOutlined, FolderAddOutlined} from '@ant-design/icons'
 
 export class Node extends Component {
   render() {
@@ -13,6 +13,10 @@ export class Node extends Component {
             <div className='addFolder'>
             <FolderAddOutlined style={{marginRight:5}} />
                 New folder
+            </div>
+            <div className='addFolder'>
+            <FileAddOutlined style={{marginRight:5}} />
+                New file
             </div>
         </div>
       </TreeHeaderWrapper>
