@@ -6,12 +6,15 @@
     "deep-freeze": "0.0.1",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
-    "react-scripts": "^4.0.3"
+    "react-scripts": "^3.4.1",
+    "styled-theme": "^0.3.3"
   },
   "dependencies": {
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.0",
+    "@ant-design/icons": "^4.6.3",
+    "antd": "^4.13.0",
     "redux": "^4.0.5"
   },
   "scripts": {

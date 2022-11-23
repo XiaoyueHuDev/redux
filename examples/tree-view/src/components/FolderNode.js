@@ -15,11 +15,6 @@ export class Node extends Component {
         }
       }
 
-    handleIncrementClick = () => {
-        const { increment, id } = this.props
-        increment(id)
-    }
-
     handleAddFileClick = () => {
         const { addFile, id } = this.props
         addFile({
@@ -41,6 +36,7 @@ export class Node extends Component {
         })
     }
 
+
     handleRemoveClick = e => {
         e.preventDefault()
 
@@ -59,11 +55,15 @@ export class Node extends Component {
     }
 
     render() {
-        const { counter, parentId, childIds, filePaths, folderName,id } = this.props
+        const { parentId, childIds, filePaths, folderName,id } = this.props
         console.log( this.props);
+        console.log(this.state);
         return (
             <div className={'list-folder'}>
-                <div onClick={() => {this.setState({selectFolder:id})}} className={'folder-name'}>
+                <div
+                    onClick={() => {this.setState({selectFolder:id})}}
+                    className={'folder-name'}
+                >
                     {
                         childIds.length?
                         (this.state.show ?
@@ -79,20 +79,20 @@ export class Node extends Component {
                     {' '}
                 </div>
                 {/* {typeof parentId !== 'undefined' &&
-                <a href="#" onClick={this.handleRemoveClick} // eslint-disable-line jsx-a11y/anchor-is-valid
+                <a href="#" onClick={this.handleRemoveClick}
                    style={{ color: 'lightgray', textDecoration: 'none' }}>
                     ×
                 </a>
                 } */}
                 <ul className={this.state.show ? 'show' : 'hidden'}>
                     {childIds&&childIds.map(this.renderChild)}
-                    <li key="add">
-                        <a href="#" // eslint-disable-line jsx-a11y/anchor-is-valid
+                    {/* <li key="add">
+                        <a href="#"
                            onClick={this.handleAddChildClick}
                         >
                             Add Folder
                         </a>
-                    </li>
+                    </li> */}
                     {/* {filePaths.map((filePath, index) => (<li key={index}>
               file: {filePath}
             </li>
