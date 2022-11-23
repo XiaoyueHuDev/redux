@@ -20,10 +20,14 @@ export class Node extends Component {
   handleAddChildClick = e => {
     e.preventDefault()
 
-    const { addChild, createNode, id } = this.props
+    const { addChild, createNode, id, parentIds } = this.props
     const folderName = `folder${Math.random()}`;
 
-    const childId = createNode(folderName).nodeId
+    const childId = createNode({
+      folderName,
+      parentIds: [...parentIds, id]
+    }).nodeId
+
     addChild({
       nodeId: id,
       childId,

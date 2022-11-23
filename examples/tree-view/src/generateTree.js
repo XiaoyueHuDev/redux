@@ -4,19 +4,9 @@ export default function generateTree() {
       id: 0,
       filePaths: ['http:xxxxxxxx.png'],
       folderName: 'folder0',
-      childIds: []
+      childIds: [],
+      parentIds: []
     }
-  }
-
-  for (let i = 1; i < 10; i++) {
-    let parentId = Math.floor(Math.pow(Math.random(), 2) * i)
-    tree[i] = {
-      id: i,
-      filePaths: ['http:xxxxxxxx01.png'],
-      folderName: `folder${i}`,
-      childIds: []
-    }
-    tree[parentId].childIds.push(i)
   }
 
   return tree

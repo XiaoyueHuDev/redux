@@ -18,6 +18,7 @@ const node = (state, action) => {
       return {
         id: action.nodeId,
         folderName: action.folderName,
+        parentIds: action.parentIds,
         filePaths:[],
         childIds: []
       }

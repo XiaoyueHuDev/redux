@@ -11,10 +11,11 @@ export const addFile = ({nodeId, filePath}) => ({
 })
 
 let nextId = 0
-export const createNode = (folderName) => ({
+export const createNode = ({folderName, parentIds}) => ({
   type: CREATE_NODE,
   nodeId: `new_${nextId++}`,
-  folderName
+  folderName,
+  parentIds
 })
 
 export const deleteNode = (nodeId) => ({
