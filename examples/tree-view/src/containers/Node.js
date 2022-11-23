@@ -42,6 +42,17 @@ export class Node extends Component {
     deleteNode(id)
   }
 
+  handleChildSelect = () => {
+    const { selectChild, parentIds, childIds, filePaths, folderName, id } = this.props;
+    selectChild({
+      id,
+      filePaths,
+      folderName,
+      childIds,
+      parentIds
+    });
+  }
+
   renderChild = childId => {
     const { id } = this.props
     return (
@@ -55,7 +66,9 @@ export class Node extends Component {
     const { parentId, childIds, filePaths, folderName } = this.props
     return (
       <div>
-        {folderName}
+        <span
+         onClick={this.handleChildSelect}
+        >{folderName}</span>
         {' '}
         <button onClick={this.handleAddFileClick}>
           add file
@@ -70,7 +83,7 @@ export class Node extends Component {
         <ul>
           {childIds.map(this.renderChild)}
           <li key="add">
-            <a href="#" // eslint-disable jsx-a11y/anchor-is-valid
+            <a href="#"
               onClick={this.handleAddChildClick}
             >
               Add Folder
