@@ -12,29 +12,44 @@ min-height:400px;
 .left_part {
     width:40%;
     border-right:1px solid #e0e0e0;
+    overflow-x: scroll;
 }
 .right_part {
     width:60%;
+    overflow-x: scroll;
 }
 ul{
     list-style-type: none 
 }
 .list-folder {
-    width:100%;
+    // width:100%;
     margin:10px;
 }
+.folder-name{
+    line-height:2em
+}
+// .folder-name:hover {
+//     background:#eee
+// }
+ul {
+    margin-top:0;
+    padding-left:20px;
+}
 .show {
-    display:block;
+    max-height:1000px;
+    overflow:hidden;
+    transition: max-height 1s;
 }
+
 .hidden {
-    display:none
+    max-height:0;
+    overflow:hidden;
+    transition: max-height .25s;
 }
-.folder-name:hover {
-    background:#eee
-}
-.folder-visited {
-    background:#ddd;
-    width:100%
+.folder-inner {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .25s;
 }
 .rote{
   transform: rotate(90deg);

@@ -3,7 +3,7 @@ import { Component } from 'react'
 import { connect } from 'react-redux'
 import * as actions from '../actions'
 import {Button} from 'antd'
-import {FolderOutlined, RightOutlined} from '@ant-design/icons'
+import {FolderOutlined, RightOutlined, FileAddOutlined, FolderAddOutlined} from '@ant-design/icons'
 export class Node extends Component {
 
     constructor(props) {
@@ -13,7 +13,6 @@ export class Node extends Component {
           defaultId:0,
           selectFolder:0
         }
-        this.handelClick = this.props.click
       }
 
     handleAddFileClick = () => {
@@ -49,10 +48,9 @@ export class Node extends Component {
 
     renderChild = childId => {
         const { id } = this.props
-        console.log(this.props);
         return (
             <li key={childId}>
-                <ConnectedNode click={this.props.click} id={childId} parentId={id} />
+                <ConnectedNode  id={childId} parentId={id} />
             </li>
         )
     }
@@ -64,8 +62,8 @@ export class Node extends Component {
             <div className={'list-folder'}>
                 <div
                     onClick={() => {this.setState({selectFolder:id})}}
-                    // className={'folder-name'}
-                    className={this.state.selectFolder === id&&'folder-visited'}
+                    className={'folder-name'}
+                    // className={this.state.selectFolder === id&&'folder-visited'}
                 >
                     {
                         childIds.length?
@@ -74,31 +72,26 @@ export class Node extends Component {
                     }
                     <FolderOutlined/>
                     {folderName}
-                    <Button onClick={this.handleAddFileClick}>
-                        add file
-                    </Button>
-                    {' '}
-                </div>
-                {typeof parentId !== 'undefined' &&
-                <a href="#" onClick={this.handleRemoveClick}
-                   style={{ color: 'lightgray', textDecoration: 'none' }}>
-                    ×
-                </a>
-                }
-                <ul className={this.state.show ? 'show' : 'hidden'}>
-                    {childIds&&childIds.map(this.renderChild)}
-                    <li key="add">
-                        <a href="#"
-                           onClick={this.handleAddChildClick}
-                        >
-                            Add Folder
+                    <FileAddOutlined style={{margin:'0 5px 0 5px'}} onClick={this.handleAddFileClick}/>
+                    <FolderAddOutlined onClick={this.handleAddChildClick}/>
+                    {typeof parentId !== 'undefined' &&
+                        <a href="#" onClick={this.handleRemoveClick}
+                        style={{ color: 'lightgray', textDecoration: 'none', paddingLeft:5 }}>
+                            ×
                         </a>
-                    </li>
-                    {filePaths.map((filePath, index) => (<li key={index}>
-              file: {filePath}
-            </li>
-            ))}
-                </ul>
+                    }
+                </div>
+                <div className={this.state.show ? 'show' : 'hidden'}>
+                    <ul>
+                        <div>
+                            {childIds&&childIds.map(this.renderChild)}
+                                {/* {filePaths.map((filePath, index) => (<li key={index}>
+                                    file: {filePath}
+                                </li>
+                            ))} */}
+                        </div>
+                    </ul>
+                </div>
             </div>
         )
     }
