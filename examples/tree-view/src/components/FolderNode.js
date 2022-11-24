@@ -16,7 +16,7 @@ export class Node extends Component {
       }
 
     handleAddFileClick = () => {
-        console.log(this);
+        // should have a model and selected current item
         const { addFile, id } = this.props
         addFile({
             nodeId: id,
@@ -25,16 +25,22 @@ export class Node extends Component {
     }
 
     handleAddChildClick = e => {
+        // should have a model and selected current item
       e.preventDefault()
   
-      const { addChild, createNode, id } = this.props
+      const { addChild, createNode, id, parentIds } = this.props
       const folderName = `folder${Math.random()}`;
-  
-      const childId = createNode(folderName).nodeId
+
+        const childId = createNode({
+          folderName,
+          parentIds: [...parentIds, id]
+        }).nodeId
+
       addChild({
         nodeId: id,
         childId,
       })
+      this.handleChildSelect()
     }
 
 
@@ -55,15 +61,27 @@ export class Node extends Component {
         )
     }
 
+    handleChildSelect = () => {
+      const { selectChild, parentIds, childIds, filePaths, folderName, id } = this.props;
+      this.setState({selectFolder:id})
+      selectChild({
+        id,
+        filePaths,
+        folderName,
+        childIds,
+        parentIds
+      });
+    }
+
     render() {
         const { parentId, childIds, filePaths, folderName,id } = this.props
-        // console.log( this.props);
+        console.log( this.props);
         return (
             <div className={'list-folder'}>
                 <div
-                    onClick={() => {this.setState({selectFolder:id})}}
+                    onClick={this.handleChildSelect}
                     className={'folder-name'}
-                    // className={this.state.selectFolder === id&&'folder-visited'}
+                    // className={id == this.state.selectFolder ? 'clicked' : 'clicknot'}
                 >
                     {
                         childIds.length?
@@ -85,10 +103,10 @@ export class Node extends Component {
                     <ul>
                         <div>
                             {childIds&&childIds.map(this.renderChild)}
-                                {/* {filePaths.map((filePath, index) => (<li key={index}>
+                                {filePaths.map((filePath, index) => (<li key={index}>
                                     file: {filePath}
                                 </li>
-                            ))} */}
+                            ))}
                         </div>
                     </ul>
                 </div>

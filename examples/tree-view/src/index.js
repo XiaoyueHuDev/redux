@@ -6,12 +6,14 @@ import reducer from './reducers'
 import generateTree from './generateTree'
 // import Node from './containers/Node'
 import FolderTree  from './components/FolderTree'
+import './index.css';
 
 const tree = generateTree()
 const store = createStore(reducer,window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
 render(
     <Provider store={store}>
+        {/* <Node /> */}
         <FolderTree />
     </Provider>,
     document.getElementById('root')

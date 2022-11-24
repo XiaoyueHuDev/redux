@@ -31,6 +31,14 @@ ul{
 // .folder-name:hover {
 //     background:#eee
 // }
+.clicked {
+    background:#eee;
+    line-height:2em
+}
+.clicknot {
+    background: #fafafa;
+    line-height:2em
+}
 ul {
     margin-top:0;
     padding-left:20px;

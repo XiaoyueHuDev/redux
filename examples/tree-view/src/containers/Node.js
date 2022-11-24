@@ -64,6 +64,7 @@ export class Node extends Component {
 
   render() {
     const { parentId, childIds, filePaths, folderName } = this.props
+    console.log(11,this.props);
     return (
       <div>
         <span

@@ -2,8 +2,7 @@ import React from 'react'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 import * as actions from '../actions'
-import {Button} from 'antd'
-import {FolderOutlined, RightOutlined, FileAddOutlined, FolderAddOutlined} from '@ant-design/icons'
+import Table from './Table'
 export class Node extends Component {
 
     constructor(props) {
@@ -25,28 +24,34 @@ export class Node extends Component {
     }
 
     render() {
-        const { parentId, childIds, filePaths, folderName,id } = this.props
-        console.log(filePaths);
+        const { selected } = this.props
+        let dataArr = [...selected.childIds,...selected.filePaths];
+        let arr = dataArr.map((name,index) => ({name, key:index}));
         return (
             <div>
-                <ul><div
-                >
-                    <FolderOutlined/>
-                    {folderName}
-                </div>
-                    {childIds&&childIds.map(this.renderChild)}
-                    {/* {filePaths.map((filePath, index) => (<li key={index}>
-                            file: {filePath}
-                        </li>
-                    ))} */}
-                </ul>
+                {/* {
+                    selected.childIds?.map(item => {
+                        return <p>{item}</p>
+                    })
+                }
+                {
+                    selected.filePaths?.map(item => {
+                        return <p>{item}</p>
+                    })
+                } */}
+                <Table data={[...arr]} />
             </div>
         )
     }
 }
 
 function mapStateToProps(state, ownProps) {
-    return state[ownProps.id]
+    console.log(222,state);
+    console.log(111111,state[ownProps.id]);
+    return {
+        selected: state.selected
+    }
+    // return state[ownProps.id]
 }
 
 const ConnectedNode = connect(mapStateToProps, actions)(Node)
