@@ -1,18 +1,29 @@
 import { Table } from 'antd';
 import React from 'react';
+import {FolderOutlined} from '@ant-design/icons'
 const columns = [
   {
     title: 'Name',
     width:'50%',
     dataIndex: 'name',
+    render:(text) => {
+      return (
+        <div>
+          {
+            text.indexOf('.') === -1 ? <FolderOutlined /> : null
+          }
+          {text}
+        </div>
+      )
+    }
   },
   {
-    title: 'Age',
-    dataIndex: 'age',
+    title: 'Modified',
+    dataIndex: 'modified',
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
+    title: 'Size',
+    dataIndex: 'size',
   },
 ];
 const App = (props) => {

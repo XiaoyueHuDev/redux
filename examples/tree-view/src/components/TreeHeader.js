@@ -4,28 +4,83 @@ import { connect } from 'react-redux'
 import * as actions from '../actions'
 import {TreeHeaderWrapper} from './FolderTreeStyle'
 import {FileAddOutlined, FolderAddOutlined} from '@ant-design/icons'
+import { Modal,Input } from 'antd'
 
 export class Node extends Component {
+
+  constructor(props) {
+      super(props)
+      this.state = {
+        addFolderModelShow:false,
+        addFileModelShow:false,
+        fileName:''
+      }
+    }
+
+  handleAdd = (e) => {
+      e.preventDefault()
+      const { addFile, createNode, selected, addChild } = this.props
+      if(this.state.addFileModelShow) {
+        addFile({
+          nodeId: selected.id,
+          filePath: `http:xxxxx${this.state.fileName}.png`
+      });
+      }else {
+        const childId = createNode({
+          folderName:`folder${this.state.fileName}`,
+          parentIds: [...selected.parentIds, selected.id]
+        }).nodeId
+        addChild({
+          nodeId: selected.id,
+          childId,
+        })
+      }
+      setTimeout(() => {
+        this.setState({addFileModelShow:false,addFolderModelShow:false,fileName:''})
+        this.handleChildSelect()
+      }, 1000);
+  }
+
+  handleChildSelect = () => {
+    const { selectChild, parentIds, childIds, filePaths, folderName, id } = this.props;
+    this.setState({selectFolder:id})
+    selectChild({
+      id,
+      filePaths,
+      folderName,
+      childIds,
+      parentIds
+    });
+  }
+
   render() {
     return (
       <TreeHeaderWrapper>
         <div className='headerLeft'>
-            <div className='addFolder'>
+            <div onClick={() => {this.setState({addFolderModelShow:true})}} className='addFolder'>
             <FolderAddOutlined style={{marginRight:5}} />
                 New folder
             </div>
-            <div className='addFolder'>
+            <div onClick={() => {this.setState({addFileModelShow:true})}} className='addFolder'>
             <FileAddOutlined style={{marginRight:5}} />
                 New file
             </div>
         </div>
+        <Modal
+          title={this.state.addFolderModelShow?'addFolder':'addFile'}
+          open={this.state.addFolderModelShow || this.state.addFileModelShow}
+          onOk={this.handleAdd}
+          onCancel={(e) => {this.setState({addFileModelShow:false,addFolderModelShow:false,fileName:''})}}
+        >
+          <Input value={this.state.fileName} onChange={(e) => { this.setState({fileName:e.target.value}) }} placeholder='please input fileName or folderName!' />
+        </Modal>
       </TreeHeaderWrapper>
     )
   }
 }
 
 function mapStateToProps(state, ownProps) {
-  return state[ownProps.id]
+  return state
 }
 
 const ConnectedNode = connect(mapStateToProps, actions)(Node)

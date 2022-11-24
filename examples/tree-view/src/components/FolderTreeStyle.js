@@ -4,11 +4,11 @@ export const FolderTreeWrapper = styled.div`
 margin: 20px;
 border:1px solid #e0e0e0;
 background: #fafafa;
-min-height:400px;
     .contenner {
     height:100%;
     display:flex;
-}
+    min-height:400px;
+    }
 .left_part {
     width:40%;
     border-right:1px solid #e0e0e0;

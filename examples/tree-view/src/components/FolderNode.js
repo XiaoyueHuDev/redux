@@ -2,8 +2,7 @@ import React from 'react'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 import * as actions from '../actions'
-import {Button} from 'antd'
-import {FolderOutlined, RightOutlined, FileAddOutlined, FolderAddOutlined} from '@ant-design/icons'
+import {FolderOutlined, RightOutlined} from '@ant-design/icons'
 export class Node extends Component {
 
     constructor(props) {
@@ -14,34 +13,6 @@ export class Node extends Component {
           selectFolder:0
         }
       }
-
-    handleAddFileClick = () => {
-        // should have a model and selected current item
-        const { addFile, id } = this.props
-        addFile({
-            nodeId: id,
-            filePath: `http:xxxxx${Math.random()}.png`
-        });
-    }
-
-    handleAddChildClick = e => {
-        // should have a model and selected current item
-      e.preventDefault()
-  
-      const { addChild, createNode, id, parentIds } = this.props
-      const folderName = `folder${Math.random()}`;
-
-        const childId = createNode({
-          folderName,
-          parentIds: [...parentIds, id]
-        }).nodeId
-
-      addChild({
-        nodeId: id,
-        childId,
-      })
-      this.handleChildSelect()
-    }
 
 
     handleRemoveClick = e => {
@@ -74,14 +45,12 @@ export class Node extends Component {
     }
 
     render() {
-        const { parentId, childIds, filePaths, folderName,id } = this.props
-        console.log( this.props);
+        const { parentId, childIds, filePaths, folderName,id,selectedId } = this.props
         return (
             <div className={'list-folder'}>
                 <div
                     onClick={this.handleChildSelect}
-                    className={'folder-name'}
-                    // className={id == this.state.selectFolder ? 'clicked' : 'clicknot'}
+                    className={id == selectedId ? 'clicked' : 'clicknot'}
                 >
                     {
                         childIds.length?
@@ -90,8 +59,6 @@ export class Node extends Component {
                     }
                     <FolderOutlined/>
                     {folderName}
-                    <FileAddOutlined style={{margin:'0 5px 0 5px'}} onClick={this.handleAddFileClick}/>
-                    <FolderAddOutlined onClick={this.handleAddChildClick}/>
                     {typeof parentId !== 'undefined' &&
                         <a href="#" onClick={this.handleRemoveClick}
                         style={{ color: 'lightgray', textDecoration: 'none', paddingLeft:5 }}>
@@ -103,10 +70,6 @@ export class Node extends Component {
                     <ul>
                         <div>
                             {childIds&&childIds.map(this.renderChild)}
-                                {filePaths.map((filePath, index) => (<li key={index}>
-                                    file: {filePath}
-                                </li>
-                            ))}
                         </div>
                     </ul>
                 </div>
@@ -116,7 +79,7 @@ export class Node extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-    return state[ownProps.id]
+    return {...state[ownProps.id],selectedId:state.selected.id}
 }
 
 const ConnectedNode = connect(mapStateToProps, actions)(Node)

@@ -25,20 +25,11 @@ export class Node extends Component {
 
     render() {
         const { selected } = this.props
-        let dataArr = [...selected.childIds,...selected.filePaths];
+        let childIdArr = this.props[selected.id].childIds.map(name => this.props[name]?.folderName)
+        let dataArr = [...childIdArr,...this.props[selected.id].filePaths];
         let arr = dataArr.map((name,index) => ({name, key:index}));
         return (
             <div>
-                {/* {
-                    selected.childIds?.map(item => {
-                        return <p>{item}</p>
-                    })
-                }
-                {
-                    selected.filePaths?.map(item => {
-                        return <p>{item}</p>
-                    })
-                } */}
                 <Table data={[...arr]} />
             </div>
         )
@@ -46,12 +37,7 @@ export class Node extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-    console.log(222,state);
-    console.log(111111,state[ownProps.id]);
-    return {
-        selected: state.selected
-    }
-    // return state[ownProps.id]
+    return state
 }
 
 const ConnectedNode = connect(mapStateToProps, actions)(Node)
