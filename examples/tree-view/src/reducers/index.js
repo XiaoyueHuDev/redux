@@ -1,4 +1,4 @@
-import { ADD_CHILD, REMOVE_CHILD, CREATE_NODE, DELETE_NODE, ADD_FILE } from '../actions'
+import { ADD_CHILD, REMOVE_CHILD, CREATE_NODE, DELETE_NODE, ADD_FILE, SELECT_CHILD } from '../actions'
 import generateTree from '../generateTree';
 
 const childIds = (state, action) => {
@@ -18,6 +18,7 @@ const node = (state, action) => {
       return {
         id: action.nodeId,
         folderName: action.folderName,
+        parentIds: action.parentIds,
         filePaths:[],
         childIds: []
       }
@@ -68,6 +69,13 @@ export default (state = initialState, action) => {
   if (action.type === DELETE_NODE) {
     const descendantIds = getAllDescendantIds(state, nodeId)
     return deleteMany(state, [ nodeId, ...descendantIds ])
+  }
+
+  if (action.type === SELECT_CHILD) {
+    return {
+      ...state,
+      selected: { ...action.selected }
+    }
   }
 
   return {
