@@ -1,4 +1,4 @@
-import { ADD_CHILD, REMOVE_CHILD, CREATE_NODE, DELETE_NODE, ADD_FILE, SELECT_CHILD } from '../actions'
+import {ADD_CHILD, REMOVE_CHILD, CREATE_NODE, DELETE_NODE, ADD_FILE, SELECT_CHILD, DELETE_FILE} from '../actions'
 import generateTree from '../generateTree';
 
 const childIds = (state, action) => {
@@ -27,6 +27,11 @@ const node = (state, action) => {
         ...state,
         filePaths: addNewFilePath(state.filePaths, action.filePath)
       }
+    case DELETE_FILE:
+      return {
+        ...state,
+        filePaths: deleteFile(state.filePaths, action.fileIndex)
+      }
     case ADD_CHILD:
       return {
         ...state,
@@ -44,6 +49,10 @@ const node = (state, action) => {
 
 const addNewFilePath = (filePaths, newFilePath) => {
   return [...filePaths, newFilePath];
+}
+
+const deleteFile = (filePaths, fileIndex) => {
+  return filePaths.filter((filePath, index) => index !== fileIndex)
 }
 
 const getAllDescendantIds = (state, nodeId) => (

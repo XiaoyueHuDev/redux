@@ -1,4 +1,5 @@
 export const ADD_FILE = 'ADD_FILE'
+export const DELETE_FILE = 'DELETE_FILE'
 export const CREATE_NODE = 'CREATE_NODE'
 export const DELETE_NODE = 'DELETE_NODE'
 export const ADD_CHILD = 'ADD_CHILD'
@@ -9,6 +10,11 @@ export const addFile = ({nodeId, filePath}) => ({
   type: ADD_FILE,
   nodeId,
   filePath
+})
+export const deleteFile = ({nodeId, fileIndex}) => ({
+  type: DELETE_FILE,
+  nodeId,
+  fileIndex
 })
 
 let nextId = 0
