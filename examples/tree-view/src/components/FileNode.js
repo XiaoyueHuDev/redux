@@ -24,13 +24,14 @@ export class Node extends Component {
     }
 
     render() {
-        const { selected } = this.props
-        let childIdArr = this.props[selected.id].childIds.map(name => this.props[name]?.folderName)
-        let dataArr = [...childIdArr,...this.props[selected.id].filePaths];
-        let arr = dataArr.map((name,index) => ({name, key:index}));
+        const { selected,id } = this.props
+        console.log(this.props);
+        let childIdArr = this.props[selected.id].childIds.map(name => ({name:this.props[name]?.folderName,key:this.props[name]?.id}));
+        let fileArr = this.props[selected.id].filePaths.map((item,index) => ({name:item,key:`file${index}`}))
+        let dataArr = [...childIdArr,...fileArr];
         return (
             <div>
-                <Table data={[...arr]} />
+                <Table methodAndMsg={this.props} data={[...dataArr]} />
             </div>
         )
     }

@@ -47,13 +47,14 @@ export class Node extends Component {
     render() {
         const { parentId, childIds, filePaths, folderName,id,selectedId } = this.props
         return (
-            <div className={'list-folder'}>
+            <div className={ id === 0 ? 'list-folder' : 'list-folder-items'}>
                 <div
                     onClick={this.handleChildSelect}
-                    className={id == selectedId ? 'clicked' : 'clicknot'}
+                    className={id == selectedId ? 'folder-clicked' : 'folder-noClick'}
                 >
+                    <div className={id === 0 ? null : 'folder-padding'}> </div>
                     {
-                        childIds.length?
+                        childIds?.length?
                             <RightOutlined className={this.state.show?'rote':'rote-back'} onClick={() => {this.setState({show:!this.state.show})}}/>:
                         null
                     }

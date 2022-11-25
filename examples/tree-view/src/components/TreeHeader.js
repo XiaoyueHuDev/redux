@@ -13,21 +13,23 @@ export class Node extends Component {
       this.state = {
         addFolderModelShow:false,
         addFileModelShow:false,
+        loading:false,
         fileName:''
       }
     }
 
   handleAdd = (e) => {
       e.preventDefault()
+      this.setState({loading:true})
       const { addFile, createNode, selected, addChild } = this.props
       if(this.state.addFileModelShow) {
         addFile({
           nodeId: selected.id,
-          filePath: `http:xxxxx${this.state.fileName}.png`
+          filePath: `${this.state.fileName}`
       });
       }else {
         const childId = createNode({
-          folderName:`folder${this.state.fileName}`,
+          folderName:`${this.state.fileName}`,
           parentIds: [...selected.parentIds, selected.id]
         }).nodeId
         addChild({
@@ -36,7 +38,7 @@ export class Node extends Component {
         })
       }
       setTimeout(() => {
-        this.setState({addFileModelShow:false,addFolderModelShow:false,fileName:''})
+        this.setState({addFileModelShow:false,addFolderModelShow:false,fileName:'',loading:false})
         this.handleChildSelect()
       }, 1000);
   }
@@ -67,12 +69,14 @@ export class Node extends Component {
             </div>
         </div>
         <Modal
+          width={'40%'}
           title={this.state.addFolderModelShow?'addFolder':'addFile'}
           open={this.state.addFolderModelShow || this.state.addFileModelShow}
           onOk={this.handleAdd}
+          confirmLoading={this.state.loading}
           onCancel={(e) => {this.setState({addFileModelShow:false,addFolderModelShow:false,fileName:''})}}
         >
-          <Input value={this.state.fileName} onChange={(e) => { this.setState({fileName:e.target.value}) }} placeholder='please input fileName or folderName!' />
+          <Input value={this.state.fileName} onChange={(e) => { this.setState({fileName:e.target.value}) }} placeholder='please input fileName or folderName! And fileName sholud have file type!' />
         </Modal>
       </TreeHeaderWrapper>
     )

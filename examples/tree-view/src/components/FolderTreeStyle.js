@@ -18,30 +18,33 @@ background: #fafafa;
     width:60%;
     overflow-x: scroll;
 }
-ul{
-    list-style-type: none 
-}
 .list-folder {
-    // width:100%;
     margin:10px;
+}
+.list-folder-items {
+    margin:10px 0;
 }
 .folder-name{
     line-height:2em
 }
-// .folder-name:hover {
-//     background:#eee
-// }
-.clicked {
-    background:#eee;
+.folder-noClick:hover {
+    background:#eee
+}
+.folder-clicked {
+    background:#ddd;
     line-height:2em
 }
-.clicknot {
+.folder-noClick {
     background: #fafafa;
     line-height:2em
 }
+.folder-padding {
+    width:20px;
+}
 ul {
     margin-top:0;
-    padding-left:20px;
+    padding-left:0;
+    list-style-type: none 
 }
 .show {
     max-height:1000px;

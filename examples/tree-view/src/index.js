@@ -13,7 +13,7 @@ const store = createStore(reducer,window.__REDUX_DEVTOOLS_EXTENSION__ && window.
 
 render(
     <Provider store={store}>
-        {/* <Node /> */}
+        {/* <Node id={0} /> */}
         <FolderTree />
     </Provider>,
     document.getElementById('root')
