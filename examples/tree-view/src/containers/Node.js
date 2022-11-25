@@ -17,6 +17,14 @@ export class Node extends Component {
     });
   }
 
+  handleDeleteFileClick = (fileIndex) => {
+    const { deleteFile, id } = this.props;
+    deleteFile({
+      nodeId: id,
+      fileIndex,
+    });
+  }
+
   handleAddChildClick = e => {
     e.preventDefault()
 
@@ -75,7 +83,7 @@ export class Node extends Component {
         </button>
         {' '}
         {typeof parentId !== 'undefined' &&
-          <a href="#" onClick={this.handleRemoveClick} // eslint-disable jsx-a11y/anchor-is-valid
+          <a href="#" onClick={this.handleRemoveClick}
              style={{ color: 'lightgray', textDecoration: 'none' }}>
             ×
           </a>
@@ -91,6 +99,10 @@ export class Node extends Component {
           </li>
           {filePaths.map((filePath, index) => (<li key={index}>
             file: {filePath}
+            <a href="#" onClick={() => this.handleDeleteFileClick(index)}
+               style={{ color: 'lightgray', textDecoration: 'none' }}>
+              ×
+            </a>
           </li>))}
         </ul>
       </div>
