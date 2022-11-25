@@ -2,7 +2,6 @@ import { Table, Button } from 'antd';
 import React from 'react';
 import {FolderOutlined} from '@ant-design/icons'
 const App = (props) => {
-  console.log(33,props);
   const columns = [
     {
       title: 'Name',
@@ -42,17 +41,14 @@ const App = (props) => {
   const deleteFile = (e) => {
     const { deleteFile,removeChild,deleteNode,selected:{filePaths,id} } = props.methodAndMsg;
     if(e.name.indexOf('.') !== -1) {
-      console.log(22);
-      const fileIndex = filePaths.findIndex((item) => {return item === e.name});
+      const fileIndex = props.methodAndMsg[id].filePaths.findIndex(item => {return item === e.name});
       deleteFile({
         nodeId: id,
         fileIndex,
       });
     }else {
-      console.log(id);
-      console.log(e.key);
       removeChild(id, e.key)
-      deleteNode(id)
+      deleteNode(e.key)
     }
   }
   return <Table columns={columns} dataSource={props.data} pagination={false} />;

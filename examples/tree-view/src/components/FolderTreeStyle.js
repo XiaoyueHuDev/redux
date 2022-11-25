@@ -40,6 +40,7 @@ background: #fafafa;
 }
 .folder-padding {
     width:20px;
+    display:inline-block;
 }
 ul {
     margin-top:0;

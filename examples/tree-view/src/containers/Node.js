@@ -44,10 +44,7 @@ export class Node extends Component {
 
   handleRemoveClick = e => {
     e.preventDefault()
-console.log(this.props);
     const { removeChild, deleteNode, parentId, id } = this.props
-    console.log(parentId);
-    console.log(id);
     removeChild(parentId, id)
     deleteNode(id)
   }
@@ -74,7 +71,6 @@ console.log(this.props);
 
   render() {
     const { parentId, childIds, filePaths, folderName } = this.props
-    console.log(11,this.props);
     return (
       <div>
         <span

@@ -14,15 +14,6 @@ export class Node extends Component {
         }
       }
 
-
-    handleRemoveClick = e => {
-        e.preventDefault()
-
-        const { removeChild, deleteNode, parentId, id } = this.props
-        removeChild(parentId, id)
-        deleteNode(id)
-    }
-
     renderChild = childId => {
         const { id } = this.props
         return (
@@ -45,14 +36,21 @@ export class Node extends Component {
     }
 
     render() {
-        const { parentId, childIds, filePaths, folderName,id,selectedId } = this.props
+        const { parentId, childIds, filePaths, folderName,id,selectedId,parentIds } = this.props
+        console.log(this.props);
         return (
             <div className={ id === 0 ? 'list-folder' : 'list-folder-items'}>
                 <div
                     onClick={this.handleChildSelect}
                     className={id == selectedId ? 'folder-clicked' : 'folder-noClick'}
                 >
-                    <div className={id === 0 ? null : 'folder-padding'}> </div>
+                    {
+                        parentIds.map(item => {
+                            return (
+                                <span className={id === 0 ? null : 'folder-padding'}></span>
+                            )
+                        })
+                    }
                     {
                         childIds?.length?
                             <RightOutlined className={this.state.show?'rote':'rote-back'} onClick={() => {this.setState({show:!this.state.show})}}/>:
@@ -60,12 +58,6 @@ export class Node extends Component {
                     }
                     <FolderOutlined/>
                     {folderName}
-                    {typeof parentId !== 'undefined' &&
-                        <a href="#" onClick={this.handleRemoveClick}
-                        style={{ color: 'lightgray', textDecoration: 'none', paddingLeft:5 }}>
-                            ×
-                        </a>
-                    }
                 </div>
                 <div className={this.state.show ? 'show' : 'hidden'}>
                     <ul>
