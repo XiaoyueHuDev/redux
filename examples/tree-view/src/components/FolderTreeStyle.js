@@ -71,6 +71,13 @@ ul {
   transform: rotate(0deg);
   transition: transform .2s linear;
 }
+.bread-item {
+    cursor:pointer;
+}
+.bread-item:hover {
+    color:black;
+    transition:all .5s;
+}
 `
 
 export const FolderListWrapper = styled.div`

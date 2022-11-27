@@ -37,7 +37,6 @@ export class Node extends Component {
 
     render() {
         const { parentId, childIds, filePaths, folderName,id,selectedId,parentIds } = this.props
-        console.log(this.props);
         return (
             <div className={ id === 0 ? 'list-folder' : 'list-folder-items'}>
                 <div
