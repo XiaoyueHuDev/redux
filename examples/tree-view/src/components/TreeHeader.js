@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import * as actions from '../actions'
 import {TreeHeaderWrapper} from './FolderTreeStyle'
 import {FileAddOutlined, FolderAddOutlined} from '@ant-design/icons'
-import { Modal,Input } from 'antd'
+import { Modal,Input, notification } from 'antd'
 import getIcon from './Icon'
 
 export class Node extends Component {
@@ -23,25 +23,42 @@ export class Node extends Component {
       e.preventDefault()
       this.setState({loading:true})
       const { addFile, createNode, selected, addChild } = this.props
-      if(this.state.addFileModelShow) {
-        addFile({
-          nodeId: selected.id,
-          filePath: `${this.state.fileName}`
-      });
+      if(this.state.fileName) {
+        if(this.state.addFileModelShow) {
+          if(this.state.fileName.indexOf('.') !== -1) {
+            addFile({
+              nodeId: selected.id,
+              filePath: `${this.state.fileName}`
+            });
+          }else {
+            notification.error({
+              message: 'Notification',
+              description:
+                'The file should have file type.(eg: xxxx.png)',
+            });
+          }
+        }else {
+          const childId = createNode({
+            folderName:`${this.state.fileName}`,
+            parentIds: [...selected.parentIds, selected.id]
+          }).nodeId
+          addChild({
+            nodeId: selected.id,
+            childId,
+          })
+        }
+        setTimeout(() => {
+          this.setState({addFileModelShow:false,addFolderModelShow:false,fileName:'',loading:false})
+          this.handleChildSelect()
+        }, 1000);
       }else {
-        const childId = createNode({
-          folderName:`${this.state.fileName}`,
-          parentIds: [...selected.parentIds, selected.id]
-        }).nodeId
-        addChild({
-          nodeId: selected.id,
-          childId,
-        })
+        this.setState({loading:false})
+        notification.error({
+          message: 'Notification',
+          description:
+            'The file or folder should be named',
+        });
       }
-      setTimeout(() => {
-        this.setState({addFileModelShow:false,addFolderModelShow:false,fileName:'',loading:false})
-        this.handleChildSelect()
-      }, 1000);
   }
 
   handleChildSelect = () => {

@@ -11,7 +11,7 @@ export class Node extends Component {
         this.state = {
           show:true,
           defaultId:0,
-          selectFolder:0
+          selectFolder:[0]
         }
       }
 
@@ -26,7 +26,7 @@ export class Node extends Component {
 
     handleChildSelect = () => {
       const { selectChild, parentIds, childIds, filePaths, folderName, id } = this.props;
-      this.setState({selectFolder:id})
+      this.setState({selectFolder:[id,...parentIds]})
       selectChild({
         id,
         filePaths,
@@ -36,10 +36,14 @@ export class Node extends Component {
       });
     }
 
+    componentWillReceiveProps(nextProps) {
+        this.setState({selectFolder:[nextProps.id,...nextProps.parentIds]})
+    }
+
     render() {
         const { parentId, childIds, filePaths, folderName,id,selectedId,parentIds } = this.props
         return (
-            <div className={ id === 0 ? 'list-folder' : 'list-folder-items'}>
+            <div>
                 <div
                     onClick={this.handleChildSelect}
                     className={id == selectedId ? 'folder-clicked' : 'folder-noClick'}
@@ -53,8 +57,8 @@ export class Node extends Component {
                     }
                     {
                         childIds?.length?
-                            <RightOutlined className={this.state.show?'rote':'rote-back'} onClick={() => {this.setState({show:!this.state.show})}}/>:
-                        null
+                            <RightOutlined className={this.state.show?'rote':'rote-back'} onClick={(e) => {e.stopPropagation();this.setState({show:!this.state.show})}}/>:
+                            <RightOutlined style={{opacity:0}}/>
                     }
                     
                     {

@@ -18,38 +18,35 @@ background: #fafafa;
     width:60%;
     overflow-x: scroll;
 }
-.list-folder {
-    margin:10px;
-}
-.list-folder-items {
-    margin:10px 0;
-}
 .folder-name{
     line-height:2em
 }
 .folder-noClick:hover {
-    background:#eee
+    background:#eee;
+    transition: all .5s;
 }
 .folder-clicked {
     background:#ddd;
-    line-height:2em;
     display:flex;
     align-items:center;
+    height:3em;
+    color:#e3165b;
+    transition: all .5s;
 }
 .folder-clicked svg {
     margin: 0 5px;
 }
 .folder-noClick {
     background: #fafafa;
-    line-height:2em;
     display:flex;
     align-items:center;
+    height:3em;
 }
 .folder-noClick svg {
     margin: 0 5px;
 }
 .folder-padding {
-    width:40px;
+    width:30px;
     display:inline-block;
 }
 ul {
@@ -76,10 +73,12 @@ ul {
 .rote{
   transform: rotate(90deg);
   transition: transform .2s linear;
+  color:#999999;
 }
 .rote-back{
   transform: rotate(0deg);
   transition: transform .2s linear;
+  color:#999999;
 }
 .bread-item {
     cursor:pointer;
@@ -119,5 +118,6 @@ border-bottom:1px solid #e0e0e0;
 }
 .addFolder:hover {
     background-color: #d6dee0;
+    transition: all .25s;
 }
 `

@@ -1,6 +1,7 @@
-import { Table, Button } from 'antd';
+import { Table,Popconfirm,message } from 'antd';
 import React from 'react';
 import {FolderOutlined} from '@ant-design/icons'
+import getIcon from './Icon'
 const App = (props) => {
   const columns = [
     {
@@ -27,12 +28,20 @@ const App = (props) => {
       dataIndex: 'size',
     },
     {
-      title: 'Config',
+      align:'center',
+      width:'10%',
       render: (text) => {
         return (
-          <Button onClick={(e) => {deleteFile(e,text)}} type='primary'>
-            Delete
-          </Button>
+          <Popconfirm
+            title="Are you sure to delete this?"
+            onConfirm={(e) => {deleteFile(e,text)}}
+          >
+            <div style={{cursor:'pointer'}}>
+              {
+                getIcon('deleteBtn')
+              }
+            </div>
+          </Popconfirm>
         )
       }
     },
@@ -47,13 +56,16 @@ const App = (props) => {
         nodeId: id,
         fileIndex,
       });
+      message.success(`${text.name} be deleted`)
     }else {
       removeChild(id, text.key)
       deleteNode(text.key)
+      message.success(`${text.name} be deleted`)
     }
   }
 
-  const handleChildSelect = ({key,name}) => {
+  const handleChildSelect = (e,{key,name}) => {
+    e.stopPropagation()
     if(name.indexOf('.') === -1) {
       const { selectChild } = props.methodAndMsg;
       const {parentIds, childIds, filePaths, folderName, id} = props.methodAndMsg[key];
@@ -73,7 +85,7 @@ const App = (props) => {
     pagination={false}
     onRow={record => {
       return {
-        onClick: (e) => {handleChildSelect(record)}
+        onDoubleClick: (e) => {handleChildSelect(e,record)}
       }
     }}
   />;
