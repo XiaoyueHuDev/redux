@@ -2,7 +2,7 @@ import React from 'react'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 import * as actions from '../actions'
-import Table from './Table'
+import Table from '../components/Table'
 import { Breadcrumb } from 'antd'
 export class Node extends Component {
 

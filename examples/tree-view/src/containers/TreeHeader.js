@@ -2,10 +2,10 @@ import React from 'react'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 import * as actions from '../actions'
-import {TreeHeaderWrapper} from './FolderTreeStyle'
+import {TreeHeaderWrapper} from '../components/FolderTreeStyle'
 import {FileAddOutlined, FolderAddOutlined} from '@ant-design/icons'
 import { Modal,Input, notification } from 'antd'
-import getIcon from './Icon'
+import getIcon from '../components/Icon'
 
 export class Node extends Component {
 

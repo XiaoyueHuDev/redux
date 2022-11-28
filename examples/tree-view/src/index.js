@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import reducer from './reducers'
 import generateTree from './generateTree'
 // import Node from './containers/Node'
-import FolderTree  from './components/FolderTree'
+import FolderTree  from './containers/FolderTree'
 import './index.css';
 
 const tree = generateTree()

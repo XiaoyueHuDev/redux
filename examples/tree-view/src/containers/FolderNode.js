@@ -3,7 +3,7 @@ import { Component } from 'react'
 import { connect } from 'react-redux'
 import * as actions from '../actions'
 import {FolderOutlined, RightOutlined} from '@ant-design/icons'
-import getIcon from './Icon'
+import getIcon from '../components/Icon'
 export class Node extends Component {
 
     constructor(props) {
@@ -57,7 +57,10 @@ export class Node extends Component {
                     }
                     {
                         childIds?.length?
-                            <RightOutlined className={this.state.show?'rote':'rote-back'} onClick={(e) => {e.stopPropagation();this.setState({show:!this.state.show})}}/>:
+                            <RightOutlined
+                                className={this.state.show?'rote':'rote-back'}
+                                onClick={(e) => {e.stopPropagation();this.setState({show:!this.state.show})}}
+                            />:
                             <RightOutlined style={{opacity:0}}/>
                     }
                     

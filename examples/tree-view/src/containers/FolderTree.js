@@ -1,6 +1,6 @@
 import React from 'react'
 import { Component } from 'react'
-import {FolderTreeWrapper} from './FolderTreeStyle'
+import {FolderTreeWrapper} from '../components/FolderTreeStyle'
 import FolderNode from './FolderNode'
 import FileNode from './FileNode'
 import TreeHeader from './TreeHeader'
