@@ -3,14 +3,14 @@ export default function generateTree() {
     selected: {
       id: 0,
       filePaths: ['http:xxxxxxxx.png'],
-      folderName: 'folder0',
+      folderName: 'Files',
       childIds: [],
       parentIds: []
     },
     0: {
       id: 0,
       filePaths: ['http:xxxxxxxx.png'],
-      folderName: 'folder0',
+      folderName: 'Files',
       childIds: [],
       parentIds: []
     }

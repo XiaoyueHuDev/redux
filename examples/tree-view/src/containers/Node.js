@@ -44,7 +44,6 @@ export class Node extends Component {
 
   handleRemoveClick = e => {
     e.preventDefault()
-
     const { removeChild, deleteNode, parentId, id } = this.props
     removeChild(parentId, id)
     deleteNode(id)
