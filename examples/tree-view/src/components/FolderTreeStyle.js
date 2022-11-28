@@ -32,14 +32,24 @@ background: #fafafa;
 }
 .folder-clicked {
     background:#ddd;
-    line-height:2em
+    line-height:2em;
+    display:flex;
+    align-items:center;
+}
+.folder-clicked svg {
+    margin: 0 5px;
 }
 .folder-noClick {
     background: #fafafa;
-    line-height:2em
+    line-height:2em;
+    display:flex;
+    align-items:center;
+}
+.folder-noClick svg {
+    margin: 0 5px;
 }
 .folder-padding {
-    width:20px;
+    width:40px;
     display:inline-block;
 }
 ul {
@@ -101,6 +111,11 @@ border-bottom:1px solid #e0e0e0;
     cursor: pointer;
     padding:5px;
     border-radius:3px;
+    display:flex;
+    align-items:center;
+}
+.addFolder svg {
+    margin:0 5px;
 }
 .addFolder:hover {
     background-color: #d6dee0;

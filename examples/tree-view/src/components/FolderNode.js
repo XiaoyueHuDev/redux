@@ -3,6 +3,7 @@ import { Component } from 'react'
 import { connect } from 'react-redux'
 import * as actions from '../actions'
 import {FolderOutlined, RightOutlined} from '@ant-design/icons'
+import getIcon from './Icon'
 export class Node extends Component {
 
     constructor(props) {
@@ -55,7 +56,10 @@ export class Node extends Component {
                             <RightOutlined className={this.state.show?'rote':'rote-back'} onClick={() => {this.setState({show:!this.state.show})}}/>:
                         null
                     }
-                    <FolderOutlined/>
+                    
+                    {
+                        getIcon('folderMsg')
+                    }
                     {folderName}
                 </div>
                 <div className={this.state.show ? 'show' : 'hidden'}>

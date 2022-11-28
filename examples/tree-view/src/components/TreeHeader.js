@@ -5,6 +5,7 @@ import * as actions from '../actions'
 import {TreeHeaderWrapper} from './FolderTreeStyle'
 import {FileAddOutlined, FolderAddOutlined} from '@ant-design/icons'
 import { Modal,Input } from 'antd'
+import getIcon from './Icon'
 
 export class Node extends Component {
 
@@ -60,11 +61,15 @@ export class Node extends Component {
       <TreeHeaderWrapper>
         <div className='headerLeft'>
             <div onClick={() => {this.setState({addFolderModelShow:true})}} className='addFolder'>
-            <FolderAddOutlined style={{marginRight:5}} />
+              {
+                getIcon('addFolder')
+              }
                 New folder
             </div>
             <div onClick={() => {this.setState({addFileModelShow:true})}} className='addFolder'>
-            <FileAddOutlined style={{marginRight:5}} />
+              {
+                getIcon('addFile')
+              }
                 New file
             </div>
         </div>
