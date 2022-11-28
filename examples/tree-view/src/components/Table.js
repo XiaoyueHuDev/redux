@@ -30,7 +30,7 @@ const App = (props) => {
       title: 'Config',
       render: (text) => {
         return (
-          <Button onClick={() => {deleteFile(text)}} type='primary'>
+          <Button onClick={(e) => {deleteFile(e,text)}} type='primary'>
             Delete
           </Button>
         )
@@ -38,17 +38,18 @@ const App = (props) => {
     },
   ];
   
-  const deleteFile = (e) => {
+  const deleteFile = (e,text) => {
+    e.stopPropagation()
     const { deleteFile,removeChild,deleteNode,selected:{filePaths,id} } = props.methodAndMsg;
-    if(e.name.indexOf('.') !== -1) {
-      const fileIndex = props.methodAndMsg[id].filePaths.findIndex(item => {return item === e.name});
+    if(text.name.indexOf('.') !== -1) {
+      const fileIndex = props.methodAndMsg[id].filePaths.findIndex(item => {return item === text.name});
       deleteFile({
         nodeId: id,
         fileIndex,
       });
     }else {
-      removeChild(id, e.key)
-      deleteNode(e.key)
+      removeChild(id, text.key)
+      deleteNode(text.key)
     }
   }
 
@@ -72,7 +73,7 @@ const App = (props) => {
     pagination={false}
     onRow={record => {
       return {
-        onClick: () => {handleChildSelect(record)}
+        onClick: (e) => {handleChildSelect(record)}
       }
     }}
   />;
